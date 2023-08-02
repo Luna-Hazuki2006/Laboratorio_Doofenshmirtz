@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
-from db import materias, categorias, indicaciones
+from db import examenes, categorias, indicaciones
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 
 @app.route('/', methods=['GET'])
 def listar_examenes():
-    pass
+    servicios = examenes.find()
+    return render_template('/examenes/index.html')
 
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
@@ -27,7 +28,8 @@ def eliminar_examen(id):
 
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
-    pass
+    indicados = indicaciones.find()
+    return render_template('//index.html')
 
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
@@ -47,7 +49,8 @@ def eliminar_indicacion(id):
 
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
-    pass
+    divisiones = categorias.find()
+    return render_template('/categorias/index.html')
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categorias():
