@@ -47,15 +47,9 @@ def actualizar_examen(id):
     if request.method == 'POST':
         forma = request.form
         nuevo_examen = {
-            'teacher': {
-                'firstname': forma['teacher_firstname'], 
-                'lastname': forma['teacher_lastname'], 
-                'id': forma['teacher_id']
-            }, 
-            'name': forma['name'], 
-            'objetive': forma['objetive'], 
-            'duration': forma['duration'], 
-            'minimum_grades': forma['minimum_grades']
+            'id': forma['id'], 
+            'nombre:': forma['nombre'], 
+            'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
             examenes.replace_one({'_id': oid}, nuevo_examen)
@@ -87,15 +81,9 @@ def crear_indicacion():
     if request.method == 'POST':
         forma = request.form
         nueva_indicacion = {
-            'teacher': {
-                'firstname': forma['teacher_firstname'], 
-                'lastname': forma['teacher_lastname'], 
-                'id': forma['teacher_id']
-            }, 
-            'name': forma['name'], 
-            'objetive': forma['objetive'], 
-            'duration': forma['duration'], 
-            'minimum_grades': forma['minimum_grades']
+            'id': forma['id'], 
+            'nombre:': forma['nombre'], 
+            'estatus': 'A'
         }
         if validar_indicacion(nueva_indicacion):
             id = indicaciones.insert_one(nueva_indicacion).inserted_id
@@ -124,15 +112,9 @@ def actualizar_indicacion(id):
     if request.method == 'POST':
         forma = request.form
         nueva_indicacion = {
-            'teacher': {
-                'firstname': forma['teacher_firstname'], 
-                'lastname': forma['teacher_lastname'], 
-                'id': forma['teacher_id']
-            }, 
-            'name': forma['name'], 
-            'objetive': forma['objetive'], 
-            'duration': forma['duration'], 
-            'minimum_grades': forma['minimum_grades']
+            'id': forma['id'], 
+            'nombre:': forma['nombre'], 
+            'estatus': 'A'
         }
         if validar_indicacion(nueva_indicacion):
             indicaciones.replace_one({'_id': oid}, nueva_indicacion)
@@ -164,15 +146,9 @@ def crear_categorias():
     if request.method == 'POST':
         forma = request.form
         nueva_categoria = {
-            'teacher': {
-                'firstname': forma['teacher_firstname'], 
-                'lastname': forma['teacher_lastname'], 
-                'id': forma['teacher_id']
-            }, 
-            'name': forma['name'], 
-            'objetive': forma['objetive'], 
-            'duration': forma['duration'], 
-            'minimum_grades': forma['minimum_grades']
+            'id': forma['id'], 
+            'nombre:': forma['nombre'], 
+            'estatus': 'A'
         }
         if validar_categoria(nueva_categoria):
             id = categorias.insert_one(nueva_categoria).inserted_id
@@ -201,15 +177,9 @@ def actualizar_categoria(id):
     if request.method == 'POST':
         forma = request.form
         nueva_categoria = {
-            'teacher': {
-                'firstname': forma['teacher_firstname'], 
-                'lastname': forma['teacher_lastname'], 
-                'id': forma['teacher_id']
-            }, 
-            'name': forma['name'], 
-            'objetive': forma['objetive'], 
-            'duration': forma['duration'], 
-            'minimum_grades': forma['minimum_grades']
+            'id': forma['id'], 
+            'nombre:': forma['nombre'], 
+            'estatus': 'A'
         }
         if validar_categoria(nueva_categoria):
             categorias.replace_one({'_id': oid}, nueva_categoria)
