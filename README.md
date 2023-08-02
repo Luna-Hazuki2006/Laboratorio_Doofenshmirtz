@@ -1,4 +1,4 @@
-# Laboratorio_Doofenshmirtz
+# Laboratorio Doofenshmirtz
 
 Laboratorio Doofenshmirtz desea una aplicación web que les permita gestionar su catálogo de exámenes y servicios. En este sentido, desean que la aplicación permita:
 
