@@ -18,6 +18,10 @@ def crear_examen():
         nuevo_examen = {
             'id': forma['id'], 
             'nombre:': forma['nombre'], 
+            'categoria': forma['categoria'], 
+            'tipo': forma['tipo'], 
+            'precio': forma['precio'], 
+            'indicaciones': forma['indicaciones'], 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
