@@ -1,5 +1,25 @@
 {% extends './base/index.html' %}
 
 {% block content %}
+<h1>{% block title %}Exámenes{% endblock %}</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Tipo</th>
+        <th>Precio</th>
+        <th>Indicaciones</th>
+    </tr>
+    {% for servicio in servicios %}
+    <tr>
+        <td>{{ servicio['id'] }}</td>
+        <td>{{ servicio['nombre'] }}</td>
+        <td>{{ servicio['categoria'] }}</td>
+        <td>{{ servicio['tipo'] }}</td>
+        <td>{{ servicio['precio'] }}</td>
+        <td>{{ servicio['indicacion'] }}</td>
+    </tr>
+</table>
 
 {% endblock %}

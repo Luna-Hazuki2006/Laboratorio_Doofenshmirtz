@@ -9,12 +9,15 @@ app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 @app.route('/', methods=['GET'])
 def listar_examenes():
     servicios = examenes.find()
-    return render_template('/examenes/index.html')
+    print(servicios)
+    return render_template('/examenes/index.html', servicios=servicios)
 
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
     if request.method == 'POST':
         forma = request.form
+        id = len(examenes.find())
+        id = "A" + id
         nuevo_examen = {
             'id': forma['id'], 
             'nombre:': forma['nombre'], 
