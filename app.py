@@ -86,7 +86,7 @@ def crear_indicacion():
         forma = request.form
         nueva_indicacion = {
             'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'informacion:': forma['nombre'], 
             'estatus': 'A'
         }
         if validar_indicacion(nueva_indicacion):
