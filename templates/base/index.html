@@ -25,7 +25,7 @@
     <p>
         <a href="{{ url_for('listar_categorias') }}">Mirar todas las categorías</a>
         <a href="{{ url_for('listar_examenes') }}">Mirar todos los examenes</a>
-        <a href="{{ url_for('listar_indicadores') }}">Mirar todas las indicaciones</a>
+        <a href="{{ url_for('listar_indicaciones') }}">Mirar todas las indicaciones</a>
     </p>
     {% for mensaje in get_flashed_messages() %}
     <p style="color: red;">{{ mensaje }}</p>
