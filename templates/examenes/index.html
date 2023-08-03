@@ -10,6 +10,7 @@
         <th>Tipo</th>
         <th>Precio</th>
         <th>Indicaciones</th>
+        <th>Opciones</th>
     </tr>
     {% for servicio in servicios %}
     <tr>
@@ -19,6 +20,9 @@
         <td>{{ servicio['tipo'] }}</td>
         <td>{{ servicio['precio'] }}</td>
         <td>{{ servicio['indicaciones'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_examen', id=servicio['_id']) }}">Consultar</a>
+        </td>
     </tr>
     {% endfor %}
 </table>

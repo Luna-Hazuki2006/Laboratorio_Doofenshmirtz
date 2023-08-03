@@ -6,11 +6,15 @@
     <tr>
         <th>Id</th>
         <th>Nombre</th>
+        <th>Opciones</th>
     </tr>
-    {% for indicacion in indicaciones %}
+    {% for indicacion in indicados %}
     <tr>
         <td>{{ indicacion['id'] }}</td>
         <td>{{ indicacion['nombre'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_indicacion', id=indicacion['_id']) }}">Consultar</a>
+        </td>
     </tr>
     {% endfor %}
 </table>

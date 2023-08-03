@@ -12,6 +12,16 @@ def listar_examenes():
     print(servicios)
     return render_template('/examenes/index.html', servicios=servicios)
 
+@app.route('/<categoria>/filtrar_examenes')
+def filtrar_examenes_categorias(categoria):
+    servicios = examenes.find({'categoria': categoria})
+    return render_template('/examenes/index.html', servicios=servicios)
+
+@app.route('/<tipo>/filtrar_examenes_tipo')
+def filtrar_examenes_tipos(tipo):
+    servicios = examenes.find({'tipo': tipo})
+    return render_template('/examenes/index.html', servicios=servicios)
+
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
     if request.method == 'POST':
@@ -40,6 +50,7 @@ def crear_examen():
 def consultar_examen(id):
     oid = ObjectId(id)
     examen = examenes.find_one({'_id': oid})
+    print(examen)
     return render_template('/examenes/index.html', examen=examen)
 
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
@@ -81,7 +92,7 @@ def eliminar_examen(id):
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
     indicados = indicaciones.find()
-    return render_template('/indicaciones/index.html')
+    return render_template('/indicaciones/index.html', indicados=indicados)
 
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
@@ -146,7 +157,7 @@ def eliminar_indicacion(id):
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
     divisiones = categorias.find()
-    return render_template('/categorias/index.html')
+    return render_template('/categorias/index.html', divisiones=divisiones)
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categorias():
@@ -167,7 +178,7 @@ def crear_categorias():
     return render_template('/categorias/index.html')
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
-def consultar_categorias(id):
+def consultar_categoria(id):
     oid = ObjectId(id)
     categoria = categorias.find_one({'_id': oid})
     return render_template('/catogorias/index.html', categoria=categoria)
