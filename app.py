@@ -142,14 +142,14 @@ def actualizar_indicacion(id):
 @app.route('/<id>/eliminar_indicacion', methods=['GET', 'POST'])
 def eliminar_indicacion(id):
     oid = ObjectId(id)
-    vieja_categoria = indicaciones.find_one({'_id': oid})
+    vieja_categoria = indicaciones.find_one({'_id': oid, 'estatus': 'A'})
 
     if not vieja_categoria:
         flash('Categoría no encontrada')
         return redirect(url_for('listar_categorias'))
     
     if request.method == 'POST':
-        indicaciones.delete_one({'_id': oid})
+        indicaciones.delete_one({'_id': oid, 'estatus': 'A'})
         flash('Indicación eliminada con éxito')
         return redirect(url_for('listar_indicaciones'))
     return render_template('/indicaciones/index.html', vieja_categoria=vieja_categoria)
@@ -181,7 +181,7 @@ def crear_categorias():
 def consultar_categoria(id):
     oid = ObjectId(id)
     categoria = categorias.find_one({'_id': oid, 'estatus': 'A'})
-    return render_template('/catogorias/index.html', categoria=categoria)
+    return render_template('/categorias/index.html', categoria=categoria)
 
 @app.route('/<id>/actualizar_categoria', methods=['GET', 'POST'])
 def actualizar_categoria(id):

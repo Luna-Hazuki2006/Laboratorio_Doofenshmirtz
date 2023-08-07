@@ -1,0 +1,22 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+<h1>{% block title %}Categorías{% endblock %}</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Opciones</th>
+    </tr>
+    {% for categoria in divisiones %}
+    <tr>
+        <td>{{ categoria['id'] }}</td>
+        <td>{{ categoria['nombre'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_categoria', id=categoria['_id']) }}">Consultar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
