@@ -31,7 +31,7 @@ def crear_examen():
         nuevo_examen = {
             'id': forma['id'], 
             'nombre:': forma['nombre'], 
-            'categoria': forma['categoria'], 
+            'categoria': categorias.find({'nombre': forma['categoria']}), 
             'tipo': forma['tipo'], 
             'precio': forma['precio'], 
             'indicaciones': forma['indicaciones'], 
