@@ -2,6 +2,38 @@
 
 {% block content %}
 
+<h2>{% block title %}Lista de exámenes{% endblock %}</h2>
+<section>
+    <h3>Filtrar exámenes</h3>
+    <div>
+        <label for="categorias">Categorías: </label>
+        <select name="categorias" id="categorias"></select>
+    </div>
+    <div>
+        <label for="tipos">Tipos: </label>
+        <select name="tipos" id="tipos"></select>
+    </div>
+</section>
 
+<table>
+    <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Opciones</th>
+    </tr>
+    {% for servicio in servicios %}
+    <tr>
+        <td>{{ servicio['id'] }}</td>
+        <td>{{ servicio['nombre'] }}</td>
+        <td>{{ servicio['precio'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_examen', id=servicio['id']) }}">Consultar</a>
+            <a href="{{ url_for('actualizar_examen', id=servicio['id']) }}">Actualizar</a>
+            <a href="{{ url_for('eliminar_examen', id=servicio['id']) }}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
