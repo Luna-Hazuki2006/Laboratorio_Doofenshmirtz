@@ -10,17 +10,17 @@ app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 def listar_examenes():
     servicios = examenes.find({'estatus': 'A'})
     print(servicios)
-    return render_template('/examenes/index.html', servicios=servicios)
+    return render_template('/examenes/listar/index.html', servicios=servicios)
 
 @app.route('/<categoria>/filtrar_examenes')
 def filtrar_examenes_categorias(categoria):
     servicios = examenes.find({'categoria': categoria, 'estatus': 'A'})
-    return render_template('/examenes/index.html', servicios=servicios)
+    return render_template('/examenes/listar/index.html', servicios=servicios)
 
 @app.route('/<tipo>/filtrar_examenes_tipo')
 def filtrar_examenes_tipos(tipo):
     servicios = examenes.find({'tipo': tipo, 'estatus': 'A'})
-    return render_template('/examenes/index.html', servicios=servicios)
+    return render_template('/examenes/listar/index.html', servicios=servicios)
 
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
@@ -44,14 +44,14 @@ def crear_examen():
                 return redirect(url_for('listar_examenes'))
             else: 
                 flash('Ocurrió un error guardando')
-    return render_template('/examenes/index.html')
+    return render_template('/examenes/agregar/index.html')
 
 @app.route('/<id>/consultar_examen', methods=['GET'])
 def consultar_examen(id):
     oid = ObjectId(id)
     examen = examenes.find_one({'_id': oid, 'estatus': 'A'})
     print(examen)
-    return render_template('/examenes/index.html', examen=examen)
+    return render_template('/examenes/consultar/index.html', examen=examen)
 
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
 def actualizar_examen(id):
@@ -72,7 +72,7 @@ def actualizar_examen(id):
         if validar_examen(nuevo_examen):
             examenes.replace_one({'_id': oid}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
-    return render_template('/examenes/index.html', viejo_examen=viejo_examen)
+    return render_template('/examenes/actualizar/index.html', viejo_examen=viejo_examen)
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
 def eliminar_examen(id):
@@ -87,12 +87,12 @@ def eliminar_examen(id):
         examenes.delete_one({'_id': oid, 'estatus': 'A'})
         flash('Examen eliminado con éxito')
         return redirect(url_for('buscar_clases'))
-    return render_template('/eliminar/index.html', viejo_examen=viejo_examen)
+    return render_template('/eliminar/eliminar/index.html', viejo_examen=viejo_examen)
 
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
     indicados = indicaciones.find({'estatus': 'A'})
-    return render_template('/indicaciones/index.html', indicados=indicados)
+    return render_template('/indicaciones/listar/index.html', indicados=indicados)
 
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
@@ -110,13 +110,13 @@ def crear_indicacion():
                 return redirect(url_for('listar_indicaciones'))
             else: 
                 flash('Ocurrió un error guardando')
-    return render_template('/indicaciones/index.html')
+    return render_template('/indicaciones/agregar/index.html')
 
 @app.route('/<id>/consultar_indicacion', methods=['GET'])
 def consultar_indicacion(id):
     oid = ObjectId(id)
     indicacion = indicaciones.find_one({'_id': oid, 'estatus': 'A'})
-    return render_template('/indicaciones/index.html', indicacion=indicacion)
+    return render_template('/indicaciones/consultar/index.html', indicacion=indicacion)
 
 @app.route('/<id>/actualizar_indicacion', methods=['GET', 'POST'])
 def actualizar_indicacion(id):
@@ -137,7 +137,7 @@ def actualizar_indicacion(id):
         if validar_indicacion(nueva_indicacion):
             indicaciones.replace_one({'_id': oid}, nueva_indicacion)
             return redirect(url_for('listar_indicaciones'))
-    return render_template('/indicaciones/index.html', vieja_indicacion=vieja_indicacion)
+    return render_template('/indicaciones/actualizar/index.html', vieja_indicacion=vieja_indicacion)
 
 @app.route('/<id>/eliminar_indicacion', methods=['GET', 'POST'])
 def eliminar_indicacion(id):
@@ -152,12 +152,12 @@ def eliminar_indicacion(id):
         indicaciones.delete_one({'_id': oid, 'estatus': 'A'})
         flash('Indicación eliminada con éxito')
         return redirect(url_for('listar_indicaciones'))
-    return render_template('/indicaciones/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/indicaciones/eliminar/index.html', vieja_categoria=vieja_categoria)
 
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
     divisiones = categorias.find({'estatus': 'A'})
-    return render_template('/categorias/index.html', divisiones=divisiones)
+    return render_template('/categorias/listar/index.html', divisiones=divisiones)
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categorias():
@@ -175,13 +175,13 @@ def crear_categorias():
                 return redirect(url_for('buscar_clases'))
             else: 
                 flash('Ocurrió un error guardando')
-    return render_template('/categorias/index.html')
+    return render_template('/categorias/agregar/index.html')
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
 def consultar_categoria(id):
     oid = ObjectId(id)
     categoria = categorias.find_one({'_id': oid, 'estatus': 'A'})
-    return render_template('/categorias/index.html', categoria=categoria)
+    return render_template('/categorias/consultar/index.html', categoria=categoria)
 
 @app.route('/<id>/actualizar_categoria', methods=['GET', 'POST'])
 def actualizar_categoria(id):
@@ -202,7 +202,7 @@ def actualizar_categoria(id):
         if validar_categoria(nueva_categoria):
             categorias.replace_one({'_id': oid, 'estatus': 'A'}, nueva_categoria)
             return redirect(url_for('buscar_clases'))
-    return render_template('/actualizar/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/categorias/actualizar/index.html', vieja_categoria=vieja_categoria)
 
 @app.route('/<id>/eliminar_categoria', methods=['GET', 'POST'])
 def eliminar_categoria(id):
@@ -217,7 +217,7 @@ def eliminar_categoria(id):
         categorias.delete_one({'_id': oid, 'estatus': 'A'})
         flash('Categoría eliminada con éxito')
         return redirect(url_for('listar_categorias'))
-    return render_template('/categorias/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)
 
 if __name__ == '__main__':
     app.run(debug=True)
