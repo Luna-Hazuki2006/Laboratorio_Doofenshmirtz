@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
 from validaciones import validar_categoria, validar_examen, validar_indicacion
-from db import examenes, categorias, indicaciones
+from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
@@ -9,8 +9,10 @@ app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 @app.route('/', methods=['GET'])
 def listar_examenes():
     servicios = examenes.find({'estatus': 'A'})
+    divisiones = categorias.find({'estatus': 'A'})
+    designaciones = indicaciones.find({'estatus': 'A'})
     print(servicios)
-    return render_template('/examenes/listar/index.html', servicios=servicios)
+    return render_template('/examenes/listar/index.html', servicios=servicios, divisiones=divisiones, designaciones=designaciones)
 
 @app.route('/<categoria>/filtrar_examenes')
 def filtrar_examenes_categorias(categoria):
@@ -218,6 +220,10 @@ def eliminar_categoria(id):
         flash('Categoría eliminada con éxito')
         return redirect(url_for('listar_categorias'))
     return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)
+
+@app.route('/reportes', methods=['GET'])
+def reportes():
+    return render_template('/reportes/index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
