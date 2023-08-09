@@ -1,16 +1,8 @@
 {% extends '././base/index.html' %}
 
 {% block content %}
-<h1>{% block title %}Indicaciones{% endblock %}</h1>
-<ul>
-    <li>
-        <a href="{{ url_for('crear_indicacion') }}">
-            Añadir una indicación
-        </a>
-    </li>
-    <li></li>
-    <li></li>
-</ul>
+<h2>{% block title %}Indicaciones{% endblock %}</h2>
+<a href="{{ url_for('crear_categoria') }}">¿No encuentras una categoría? ¡Créala!</a>
 <table>
     <tr>
         <th>Id</th>

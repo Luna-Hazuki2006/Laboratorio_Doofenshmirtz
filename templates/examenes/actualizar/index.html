@@ -2,6 +2,52 @@
 
 {% block content %}
 
-
+<h1>{% block title %}Actualizar Examen{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <div>
+        <label for="nombre">Nombre: </label>
+        <input 
+            type="text" 
+            name="nombre" 
+            id="nombre"
+            value="{{ viejo_examen['nombre'] }}"
+        ><br><br>
+        <label for="categoria">Categoría: </label>
+        <input 
+            type="text" 
+            name="categoria" 
+            id="categoria" 
+            value="{{ viejo_examen['categoria'] }}"
+        ><br><br>
+        <label for="tipo">Tipo: </label>
+        <input 
+            type="text" 
+            name="tipo" 
+            id="tipo" 
+            value="{{ viejo_examen['tipo'] }}"
+        ><br><br>
+        <label for="precio">Nombre: </label>
+        <input 
+            type="text" 
+            name="precio" 
+            id="precio" 
+            value="{{ viejo_examen['precio'] }}"
+        ><br><br>
+        <label for="indicaciones">Objetivo: </label>
+        <input 
+            type="text" 
+            name="indicaciones" 
+            id="indicaciones" 
+            value="{{ viejo_examen['indicaciones'] }}"
+        >
+    </div>
+    <div>
+        <a href="{{ url_for('buscar_clases') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Actualizar</button>
+    </div>
+</form>
 
 {% endblock %}

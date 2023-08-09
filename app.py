@@ -26,6 +26,9 @@ def filtrar_examenes_tipos(tipo):
 
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
+    divisiones = categorias.find({'estatus': 'A'})
+    caracteristicas = tipos.find({'estatus': 'A'})
+    descripcioines = indicaciones.find({'estatus': 'A'})
     if request.method == 'POST':
         forma = request.form
         id = len(examenes.find({'estatus': 'A'}))
@@ -56,8 +59,7 @@ def consultar_examen(id):
 
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
 def actualizar_examen(id):
-    oid = ObjectId(id)
-    viejo_examen = examenes.find_one({'_id': oid, 'estatus': 'A'})
+    viejo_examen = examenes.find_one({'id': id, 'estatus': 'A'})
 
     if not viejo_examen:
         flash('Examen no encontrado')
@@ -68,24 +70,27 @@ def actualizar_examen(id):
         nuevo_examen = {
             'id': forma['id'], 
             'nombre:': forma['nombre'], 
+            'categoria': categorias.find({'nombre': forma['categoria']}), 
+            'tipo': forma['tipo'], 
+            'precio': forma['precio'], 
+            'indicaciones': forma['indicaciones'], 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
-            examenes.replace_one({'_id': oid}, nuevo_examen)
+            examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
     return render_template('/examenes/actualizar/index.html', viejo_examen=viejo_examen)
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
 def eliminar_examen(id):
-    oid = ObjectId(id)
-    viejo_examen = examenes.find_one({'_id': oid, 'estatus': 'A'})
+    viejo_examen = examenes.find_one({'id': id, 'estatus': 'A'})
 
     if not viejo_examen:
         flash('Examen no encontrado')
         return redirect(url_for('listar_examenes'))
     
     if request.method == 'POST':
-        examenes.delete_one({'_id': oid, 'estatus': 'A'})
+        examenes.delete_one({'id': id, 'estatus': 'A'})
         flash('Examen eliminado con éxito')
         return redirect(url_for('buscar_clases'))
     return render_template('/eliminar/eliminar/index.html', viejo_examen=viejo_examen)
@@ -101,7 +106,8 @@ def crear_indicacion():
         forma = request.form
         nueva_indicacion = {
             'id': forma['id'], 
-            'informacion:': forma['nombre'], 
+            'nombre:': forma['nombre'], 
+            'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
         if validar_indicacion(nueva_indicacion):
@@ -120,8 +126,7 @@ def consultar_indicacion(id):
 
 @app.route('/<id>/actualizar_indicacion', methods=['GET', 'POST'])
 def actualizar_indicacion(id):
-    oid = ObjectId(id)
-    vieja_indicacion = indicaciones.find_one({'_id': oid, 'estatus': 'A'})
+    vieja_indicacion = indicaciones.find_one({'id': id, 'estatus': 'A'})
 
     if not vieja_indicacion:
         flash('Indicación no encontrada')
@@ -132,27 +137,27 @@ def actualizar_indicacion(id):
         nueva_indicacion = {
             'id': forma['id'], 
             'nombre:': forma['nombre'], 
+            'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
         if validar_indicacion(nueva_indicacion):
-            indicaciones.replace_one({'_id': oid}, nueva_indicacion)
+            indicaciones.replace_one({'id': id}, nueva_indicacion)
             return redirect(url_for('listar_indicaciones'))
     return render_template('/indicaciones/actualizar/index.html', vieja_indicacion=vieja_indicacion)
 
 @app.route('/<id>/eliminar_indicacion', methods=['GET', 'POST'])
 def eliminar_indicacion(id):
-    oid = ObjectId(id)
-    vieja_categoria = indicaciones.find_one({'_id': oid, 'estatus': 'A'})
+    vieja_indicacion = indicaciones.find_one({'id': id, 'estatus': 'A'})
 
-    if not vieja_categoria:
+    if not vieja_indicacion:
         flash('Categoría no encontrada')
         return redirect(url_for('listar_categorias'))
     
     if request.method == 'POST':
-        indicaciones.delete_one({'_id': oid, 'estatus': 'A'})
+        indicaciones.update_one({'id': id, 'estatus': 'A'}, {'estatus': 'I'})
         flash('Indicación eliminada con éxito')
         return redirect(url_for('listar_indicaciones'))
-    return render_template('/indicaciones/eliminar/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/indicaciones/eliminar/index.html', vieja_indicacion=vieja_indicacion)
 
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
@@ -204,15 +209,14 @@ def actualizar_categoria(id):
 
 @app.route('/<id>/eliminar_categoria', methods=['GET', 'POST'])
 def eliminar_categoria(id):
-    oid = ObjectId(id)
-    vieja_categoria = categorias.find_one({'_id': oid, 'estatus': 'A'})
+    vieja_categoria = categorias.find_one({'id': id, 'estatus': 'A'})
 
     if not vieja_categoria:
         flash('Categoría no encontrada')
         return redirect(url_for('listar_categorias'))
     
     if request.method == 'POST':
-        categorias.delete_one({'_id': oid, 'estatus': 'A'})
+        categorias.delete_one({'id': id, 'estatus': 'A'})
         flash('Categoría eliminada con éxito')
         return redirect(url_for('listar_categorias'))
     return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)

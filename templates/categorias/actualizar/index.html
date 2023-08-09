@@ -2,5 +2,27 @@
 
 {% block content %}
 
+<h1>{% block title %}Actualizar categoría{% endblock %}</h1>
+<form method="post">
+    <h4>Datos del profesor</h4>
+    <label for="nombre">Nombre: </label>
+    <input 
+        type="text" 
+        name="nombre" 
+        id="nombre" 
+        value="{{ vieja_categoria['nombre'] }}"
+    ><br><br>
+    <label for="descripcion">Descripción: </label>
+    <input 
+        type="text" 
+        name="descripcion" 
+        id="descripcion" 
+        value="{{ vieja_categoria['descripcion'] }}"
+    >
+    <a href="{{ url_for('listar_categorias') }}">
+        <button type="button">Cancelar</button>
+    </a>
+    <button type="submit">Actualizar</button>
+</form>
 
 {% endblock %}
