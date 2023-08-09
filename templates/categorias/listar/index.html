@@ -1,7 +1,7 @@
 {% extends '././base/index.html' %}
 
 {% block content %}
-<h1>{% block title %}Categorías{% endblock %}</h1>
+<h2 class="centro">{% block title %}Categorías{% endblock %}</h2>
 <table>
     <tr>
         <th>Id</th>
@@ -13,7 +13,9 @@
         <td>{{ categoria['id'] }}</td>
         <td>{{ categoria['nombre'] }}</td>
         <td>
-            <a href="{{ url_for('consultar_categoria', id=categoria['_id']) }}">Consultar</a>
+            <a href="{{ url_for('consultar_categoria', id=categoria['id']) }}">Consultar</a>
+            <a href="{{ url_for('actualizar_categoria', id=categoria['id']) }}">Actualizar</a>
+            <a href="{{ url_for('eliminar_categoria', id=categoria['id']) }}">Eliminar</a>
         </td>
     </tr>
     {% endfor %}
