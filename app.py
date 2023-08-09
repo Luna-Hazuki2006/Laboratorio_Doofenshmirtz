@@ -10,9 +10,9 @@ app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 def listar_examenes():
     servicios = examenes.find({'estatus': 'A'})
     divisiones = categorias.find({'estatus': 'A'})
-    designaciones = indicaciones.find({'estatus': 'A'})
+    caracteristicas = tipos.find({'estatus': 'A'})
     print(servicios)
-    return render_template('/examenes/listar/index.html', servicios=servicios, divisiones=divisiones, designaciones=designaciones)
+    return render_template('/examenes/listar/index.html', servicios=servicios, divisiones=divisiones, caracteristicas=caracteristicas)
 
 @app.route('/<categoria>/filtrar_examenes')
 def filtrar_examenes_categorias(categoria):
@@ -50,8 +50,7 @@ def crear_examen():
 
 @app.route('/<id>/consultar_examen', methods=['GET'])
 def consultar_examen(id):
-    oid = ObjectId(id)
-    examen = examenes.find_one({'_id': oid, 'estatus': 'A'})
+    examen = examenes.find_one({'id': id, 'estatus': 'A'})
     print(examen)
     return render_template('/examenes/consultar/index.html', examen=examen)
 
@@ -116,8 +115,7 @@ def crear_indicacion():
 
 @app.route('/<id>/consultar_indicacion', methods=['GET'])
 def consultar_indicacion(id):
-    oid = ObjectId(id)
-    indicacion = indicaciones.find_one({'_id': oid, 'estatus': 'A'})
+    indicacion = indicaciones.find_one({'id': id, 'estatus': 'A'})
     return render_template('/indicaciones/consultar/index.html', indicacion=indicacion)
 
 @app.route('/<id>/actualizar_indicacion', methods=['GET', 'POST'])
@@ -162,7 +160,7 @@ def listar_categorias():
     return render_template('/categorias/listar/index.html', divisiones=divisiones)
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
-def crear_categorias():
+def crear_categoria():
     if request.method == 'POST':
         forma = request.form
         nueva_categoria = {
@@ -181,14 +179,12 @@ def crear_categorias():
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
 def consultar_categoria(id):
-    oid = ObjectId(id)
-    categoria = categorias.find_one({'_id': oid, 'estatus': 'A'})
+    categoria = categorias.find_one({'id': id, 'estatus': 'A'})
     return render_template('/categorias/consultar/index.html', categoria=categoria)
 
 @app.route('/<id>/actualizar_categoria', methods=['GET', 'POST'])
 def actualizar_categoria(id):
-    oid = ObjectId(id)
-    vieja_categoria = categorias.find_one({'_id': oid, 'estatus': 'A'})
+    vieja_categoria = categorias.find_one({'id': id, 'estatus': 'A'})
 
     if not vieja_categoria:
         flash('Categoría no encontrada')
@@ -202,7 +198,7 @@ def actualizar_categoria(id):
             'estatus': 'A'
         }
         if validar_categoria(nueva_categoria):
-            categorias.replace_one({'_id': oid, 'estatus': 'A'}, nueva_categoria)
+            categorias.replace_one({'id': id, 'estatus': 'A'}, nueva_categoria)
             return redirect(url_for('buscar_clases'))
     return render_template('/categorias/actualizar/index.html', vieja_categoria=vieja_categoria)
 

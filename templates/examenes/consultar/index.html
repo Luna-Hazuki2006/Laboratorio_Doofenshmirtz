@@ -2,5 +2,23 @@
 
 {% block content %}
 
+<h2>{% block title %}Consulta de examen{% endblock %}</h2>
+
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ examen['id'] }} <br>
+        <strong>Nombre: </strong> {{ examen['nombre'] }} <br>
+        <strong>Categoría: </strong> {{ examen['categoria'] }} <br>
+        <strong>Tipo: </strong> {{ examen['tipo'] }} <br>
+        <strong>Precio: </strong> {{ examen['precio'] }} bs <br>
+        <strong>Indicaciones: </strong> {{ examen['indicaciones'] }}
+    </p>
+</div>
+<div>
+    <a href="{{ url_for('listar_examenes') }}">
+        <button type="button">Volver a la lista</button>
+    </a>
+</div>
 
 {% endblock %}

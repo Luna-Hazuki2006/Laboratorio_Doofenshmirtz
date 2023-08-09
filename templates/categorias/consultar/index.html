@@ -2,5 +2,20 @@
 
 {% block content %}
 
+<h2>{% block title %}Consulta de categoría{% endblock %}</h2>
+
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ categoria['id'] }} <br>
+        <strong>Nombre: </strong> {{ categoria['nombre'] }} <br>
+        <strong>Descripción: </strong> {{ categoria['descripcion'] }}
+    </p>
+</div>
+<div>
+    <a href="{{ url_for('listar_categorias') }}">
+        <button type="button">Volver a la lista</button>
+    </a>
+</div>
 
 {% endblock %}
