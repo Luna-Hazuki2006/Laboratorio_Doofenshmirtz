@@ -18,14 +18,15 @@
         {% endfor %}
     </select><br><br>
     <label for="tipo">Tipo: </label>
-    <select name="tipos" id="tipos">
+    <select name="tipo" id="tipo">
         {% for tipo in caracteristicas %}
         <option value="{{ request.form['tipo'] }}">{{ tipo['nombre'] }}</option>
         {% endfor %}
     </select><br><br>
     <label for="precio">Precio (en bolívares): </label>
     <input 
-        type="numnber" 
+        type="number" 
+        min="1"
         name="precio" 
         id="precio" 
         value="{{ request.form['precio'] }}"
