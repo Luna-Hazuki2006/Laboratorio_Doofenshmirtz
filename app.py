@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
-from validaciones import validar_categoria, validar_examen, validar_indicacion
+from validaciones import validar_categoria, validar_examen, validar_indicacion, validar_tipos
 from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
@@ -31,11 +31,10 @@ def crear_examen():
     descripcioines = indicaciones.find({'estatus': 'A'})
     if request.method == 'POST':
         forma = request.form
-        id = len(examenes.find({'estatus': 'A'}))
-        id = "A" + id
+        numero = examenes.count_documents({})
         nuevo_examen = {
-            'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'id': 'E' + numero, 
+            'nombre': forma['nombre'], 
             'categoria': categorias.find({'nombre': forma['categoria']}), 
             'tipo': forma['tipo'], 
             'precio': forma['precio'], 
@@ -69,7 +68,7 @@ def actualizar_examen(id):
         forma = request.form
         nuevo_examen = {
             'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'nombre': forma['nombre'], 
             'categoria': categorias.find({'nombre': forma['categoria']}), 
             'tipo': forma['tipo'], 
             'precio': forma['precio'], 
@@ -89,6 +88,16 @@ def eliminar_examen(id):
         flash('Examen no encontrado')
         return redirect(url_for('listar_examenes'))
     
+    nuevo_examen = {
+        'id': viejo_examen['id'], 
+        'nombre': viejo_examen['nombre'], 
+        'categoria': viejo_examen['categoria'], 
+        'tipo': viejo_examen['tipo'], 
+        'precio': viejo_examen['precio'], 
+        'indicaciones': viejo_examen['indicaciones'], 
+        'estatus': 'A'
+    }
+    
     if request.method == 'POST':
         examenes.delete_one({'id': id, 'estatus': 'A'})
         flash('Examen eliminado con éxito')
@@ -103,10 +112,11 @@ def listar_indicaciones():
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
     if request.method == 'POST':
+        numero = indicaciones.count_documents({})
         forma = request.form
         nueva_indicacion = {
-            'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'id': 'I' + str(numero), 
+            'nombre': forma['nombre'], 
             'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
@@ -135,8 +145,8 @@ def actualizar_indicacion(id):
     if request.method == 'POST':
         forma = request.form
         nueva_indicacion = {
-            'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'id': vieja_indicacion['id'], 
+            'nombre': forma['nombre'], 
             'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
@@ -153,8 +163,15 @@ def eliminar_indicacion(id):
         flash('Categoría no encontrada')
         return redirect(url_for('listar_categorias'))
     
+    indicacion_eliminada = {
+        'id': vieja_indicacion['id'], 
+        'nombre': vieja_indicacion['nombre'], 
+        'explicacion': vieja_indicacion['explicacion'], 
+        'estatus': 'I'
+    }
+    
     if request.method == 'POST':
-        indicaciones.update_one({'id': id, 'estatus': 'A'}, {'estatus': 'I'})
+        indicaciones.replace_one({'id': id, 'estatus': 'A'}, indicacion_eliminada)
         flash('Indicación eliminada con éxito')
         return redirect(url_for('listar_indicaciones'))
     return render_template('/indicaciones/eliminar/index.html', vieja_indicacion=vieja_indicacion)
@@ -167,17 +184,19 @@ def listar_categorias():
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categoria():
     if request.method == 'POST':
+        numero = categorias.count_documents({})
         forma = request.form
         nueva_categoria = {
-            'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'id': 'C' + str(numero), 
+            'nombre': forma['nombre'], 
+            'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
         if validar_categoria(nueva_categoria):
             id = categorias.insert_one(nueva_categoria).inserted_id
             if id:
                 flash('Categoría creada con éxito')
-                return redirect(url_for('buscar_clases'))
+                return redirect(url_for('listar_categorias'))
             else: 
                 flash('Ocurrió un error guardando')
     return render_template('/categorias/agregar/index.html')
@@ -198,13 +217,14 @@ def actualizar_categoria(id):
     if request.method == 'POST':
         forma = request.form
         nueva_categoria = {
-            'id': forma['id'], 
-            'nombre:': forma['nombre'], 
+            'id': vieja_categoria['id'], 
+            'nombre': forma['nombre'], 
+            'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
         if validar_categoria(nueva_categoria):
             categorias.replace_one({'id': id, 'estatus': 'A'}, nueva_categoria)
-            return redirect(url_for('buscar_clases'))
+            return redirect(url_for('listar_categorias'))
     return render_template('/categorias/actualizar/index.html', vieja_categoria=vieja_categoria)
 
 @app.route('/<id>/eliminar_categoria', methods=['GET', 'POST'])
@@ -215,11 +235,90 @@ def eliminar_categoria(id):
         flash('Categoría no encontrada')
         return redirect(url_for('listar_categorias'))
     
+    categoria_eliminada = {
+        'id': vieja_categoria['id'], 
+        'nombre': vieja_categoria['nombre'], 
+        'descripcion': vieja_categoria['descripcion'], 
+        'estatus': 'I'
+    }
+    
     if request.method == 'POST':
-        categorias.delete_one({'id': id, 'estatus': 'A'})
+        categorias.replace_one({'id': id, 'estatus': 'A'}, categoria_eliminada)
         flash('Categoría eliminada con éxito')
         return redirect(url_for('listar_categorias'))
     return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)
+
+@app.route('/listar_tipos', methods=['GET'])
+def listar_tipos():
+    diferencias = tipos.find({'estatus': 'A'})
+    return render_template('/tipos/listar/index.html', diferencias=diferencias)
+
+@app.route('/crear_tipos', methods=['GET', 'POST'])
+def crear_tipos():
+    if request.method == 'POST':
+        numero = tipos.count_documents({})
+        forma = request.form
+        nuevo_tipo = {
+            'id': 'C' + str(numero), 
+            'nombre': forma['nombre'], 
+            'descripcion': forma['descripcion'], 
+            'estatus': 'A'
+        }
+        if validar_tipos(nuevo_tipo):
+            id = tipos.insert_one(nuevo_tipo).inserted_id
+            if id:
+                flash('Tipo creado con éxito')
+                return redirect(url_for('listar_tipos'))
+            else: 
+                flash('Ocurrió un error guardando')
+    return render_template('/tipos/agregar/index.html')
+
+@app.route('/<id>/consultar_tipos', methods=['GET'])
+def consultar_tipo(id):
+    diferencias = tipos.find_one({'id': id, 'estatus': 'A'})
+    return render_template('/categorias/consultar/index.html', diferencias=diferencias)
+
+@app.route('/<id>/actualizar_tipo', methods=['GET', 'POST'])
+def actualizar_tipo(id):
+    viejo_tipo = tipos.find_one({'id': id, 'estatus': 'A'})
+
+    if not viejo_tipo:
+        flash('Tipo no encontrado')
+        return redirect(url_for('listar_tipos'))
+    
+    if request.method == 'POST':
+        forma = request.form
+        nuevo_tipo = {
+            'id': viejo_tipo['id'], 
+            'nombre': forma['nombre'], 
+            'descripcion': forma['descripcion'], 
+            'estatus': 'A'
+        }
+        if validar_tipos(nuevo_tipo):
+            tipos.replace_one({'id': id, 'estatus': 'A'}, nuevo_tipo)
+            return redirect(url_for('listar_tipos'))
+    return render_template('/tipos/actualizar/index.html', viejo_tipo=viejo_tipo)
+
+@app.route('/<id>/eliminar_tipo', methods=['GET', 'POST'])
+def eliminar_tipo(id):
+    viejo_tipo = tipos.find_one({'id': id, 'estatus': 'A'})
+
+    if not viejo_tipo:
+        flash('Tipo no encontrado')
+        return redirect(url_for('listar_tipos'))
+    
+    tipo_eliminado = {
+        'id': viejo_tipo['id'], 
+        'nombre': viejo_tipo['nombre'], 
+        'descripcion': viejo_tipo['descripcion'], 
+        'estatus': 'I'
+    }
+    
+    if request.method == 'POST':
+        tipos.replace_one({'id': id, 'estatus': 'A'}, tipo_eliminado)
+        flash('Tipo eliminado con éxito')
+        return redirect(url_for('listar_tipos'))
+    return render_template('/categorias/eliminar/index.html', viejo_tipo=viejo_tipo)
 
 @app.route('/reportes', methods=['GET'])
 def reportes():

@@ -2,5 +2,31 @@
 
 {% block content %}
 
+<h1>{% block title %}Crear indicación{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <div>
+        <label for="nombre">Nombre: </label>
+        <input 
+            type="text" 
+            name="nombre" 
+            id="nombre" 
+            value="{{ request.form['nombre'] }}"
+        ><br><br>
+        <label for="explicacion">Explicación: </label>
+        <input 
+            type="text" 
+            name="explicacion" 
+            id="explicacion" 
+            value="{{ request.form['explicacion'] }}"
+        >
+    </div>
+    <div>
+        <a href="{{ url_for('listar_indicaciones') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Crear</button>
+    </div>
+</form>
 
 {% endblock %}

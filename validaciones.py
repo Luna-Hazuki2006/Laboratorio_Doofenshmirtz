@@ -6,3 +6,6 @@ def validar_categoria(categoria):
 
 def validar_indicacion(indicacion):
     return True
+
+def validar_tipos(tipo):
+    return True
