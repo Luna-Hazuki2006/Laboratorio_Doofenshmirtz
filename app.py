@@ -34,7 +34,7 @@ def crear_examen():
     descripciones = indicaciones.find({'estatus': 'A'})
     if request.method == 'POST':
         forma = request.form
-        numero = examenes.count_documents({})
+        numero = examenes.count_documents({}) + 1
         nuevo_examen = {
             'id': 'E' + numero, 
             'nombre': forma['nombre'], 
@@ -115,7 +115,7 @@ def eliminar_examen(id):
         examenes.replace_one({'id': id, 'estatus': 'A'}, examen_eliminado)
         flash('Examen eliminado con éxito')
         return redirect(url_for('buscar_clases'))
-    return render_template('/eliminar/eliminar/index.html', viejo_examen=viejo_examen)
+    return render_template('/examenes/eliminar/index.html', viejo_examen=viejo_examen)
 
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
@@ -125,7 +125,7 @@ def listar_indicaciones():
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
     if request.method == 'POST':
-        numero = indicaciones.count_documents({})
+        numero = indicaciones.count_documents({}) + 1
         forma = request.form
         nueva_indicacion = {
             'id': 'I' + str(numero), 
@@ -197,7 +197,7 @@ def listar_categorias():
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categoria():
     if request.method == 'POST':
-        numero = categorias.count_documents({})
+        numero = categorias.count_documents({}) + 1
         forma = request.form
         nueva_categoria = {
             'id': 'C' + str(numero), 
@@ -267,9 +267,9 @@ def listar_tipos():
     return render_template('/tipos/listar/index.html', diferencias=diferencias)
 
 @app.route('/crear_tipos', methods=['GET', 'POST'])
-def crear_tipos():
+def crear_tipo():
     if request.method == 'POST':
-        numero = tipos.count_documents({})
+        numero = tipos.count_documents({}) + 1
         forma = request.form
         nuevo_tipo = {
             'id': 'C' + str(numero), 
@@ -288,8 +288,8 @@ def crear_tipos():
 
 @app.route('/<id>/consultar_tipos', methods=['GET'])
 def consultar_tipo(id):
-    diferencias = tipos.find_one({'id': id, 'estatus': 'A'})
-    return render_template('/categorias/consultar/index.html', diferencias=diferencias)
+    tipo = tipos.find_one({'id': id, 'estatus': 'A'})
+    return render_template('/tipos/consultar/index.html', tipo=tipo)
 
 @app.route('/<id>/actualizar_tipo', methods=['GET', 'POST'])
 def actualizar_tipo(id):
@@ -331,7 +331,7 @@ def eliminar_tipo(id):
         tipos.replace_one({'id': id, 'estatus': 'A'}, tipo_eliminado)
         flash('Tipo eliminado con éxito')
         return redirect(url_for('listar_tipos'))
-    return render_template('/categorias/eliminar/index.html', viejo_tipo=viejo_tipo)
+    return render_template('/tipos/eliminar/index.html', viejo_tipo=viejo_tipo)
 
 @app.route('/reportes', methods=['GET'])
 def reportes():

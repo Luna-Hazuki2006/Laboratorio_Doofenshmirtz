@@ -2,17 +2,17 @@
 
 {% block content %}
 
-<h2>{% block title %}Consulta de examen{% endblock %}</h2>
+<h2>{% block title %}Eliminar examen{% endblock %}</h2>
 
 <div>
     <h3>Datos:</h3>
     <p style="text-align: left;">
-        <strong>Id: </strong> {{ examen['id'] }} <br>
-        <strong>Nombre: </strong> {{ examen['nombre'] }} <br>
-        <strong>Categoría: </strong> {{ examen['categoria']['nombre'] }} <br>
-        <strong>Tipo: </strong> {{ examen['tipo']['nombre'] }} <br>
-        <strong>Precio: </strong> {{ examen['precio'] }} bs <br>
-        <strong>Indicaciones: </strong> {{ examen['indicaciones']['nombre'] }}
+        <strong>Id: </strong> {{ viejo_examen['id'] }} <br>
+        <strong>Nombre: </strong> {{ viejo_examen['nombre'] }} <br>
+        <strong>Categoría: </strong> {{ viejo_examen['categoria']['nombre'] }} <br>
+        <strong>Tipo: </strong> {{ viejo_examen['tipo']['nombre'] }} <br>
+        <strong>Precio: </strong> {{ viejo_examen['precio'] }} bs <br>
+        <strong>Indicaciones: </strong> {{ viejo_examen['indicaciones']['nombre'] }}
     </p>
 </div>
 <div>

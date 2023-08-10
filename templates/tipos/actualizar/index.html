@@ -19,10 +19,12 @@
         id="descripcion" 
         value="{{ viejo_tipo['descripcion'] }}"
     >
-    <a href="{{ url_for('listar_tipos') }}">
-        <button type="button">Cancelar</button>
-    </a>
-    <button type="submit">Actualizar</button>
+    <div>
+        <a href="{{ url_for('listar_tipos') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Actualizar</button>
+    </div>
 </form>
 
 {% endblock %}

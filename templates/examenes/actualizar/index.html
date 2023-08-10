@@ -32,7 +32,7 @@
             id="precio" 
             value="{{ viejo_examen['precio'] }}"
         ><br><br>
-        <label for="indicaciones">Objetivo: </label>
+        <label for="indicaciones">Indicaciones: </label>
         <select name="indicaciones" id="indicaciones">
             {% for indicacion in descripciones %}
             <option value="{{ viejo_examen['indicaciones'] }}">{{ indicacion['nombre'] }}</option>
@@ -40,7 +40,7 @@
         </select>
     </div>
     <div>
-        <a href="{{ url_for('buscar_clases') }}">
+        <a href="{{ url_for('listar_examenes') }}">
             <button type="button">Cancelar</button>
         </a>
         <button type="submit">Actualizar</button>
