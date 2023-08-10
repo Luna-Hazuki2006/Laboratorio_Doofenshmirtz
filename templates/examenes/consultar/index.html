@@ -9,10 +9,10 @@
     <p style="text-align: left;">
         <strong>Id: </strong> {{ examen['id'] }} <br>
         <strong>Nombre: </strong> {{ examen['nombre'] }} <br>
-        <strong>Categoría: </strong> {{ examen['categoria'] }} <br>
-        <strong>Tipo: </strong> {{ examen['tipo'] }} <br>
+        <strong>Categoría: </strong> {{ examen['categoria']['nombre'] }} <br>
+        <strong>Tipo: </strong> {{ examen['tipo']['nombre'] }} <br>
         <strong>Precio: </strong> {{ examen['precio'] }} bs <br>
-        <strong>Indicaciones: </strong> {{ examen['indicaciones'] }}
+        <strong>Indicaciones: </strong> {{ examen['indicaciones']['nombre'] }}
     </p>
 </div>
 <div>

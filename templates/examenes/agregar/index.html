@@ -1,29 +1,46 @@
 {% extends '././base/index.html' %}
 
 {% block content %}
-<h1>{% block title %}Añadir examen{% endblock %}</h1>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Tipo</th>
-        <th>Precio</th>
-        <th>Indicaciones</th>
-        <th>Opciones</th>
-    </tr>
-    {% for servicio in servicios %}
-    <tr>
-        <td>{{ servicio['id'] }}</td>
-        <td>{{ servicio['nombre'] }}</td>
-        <td>{{ servicio['categoria'] }}</td>
-        <td>{{ servicio['tipo'] }}</td>
-        <td>{{ servicio['precio'] }}</td>
-        <td>{{ servicio['indicaciones'] }}</td>
-        <td>
-            <a href="{{ url_for('consultar_examen', id=servicio['_id']) }}">Consultar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<h1>{% block title %}Añadir Examen{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <label for="nombre">Nombre: </label>
+    <input 
+        type="text" 
+        name="nombre" 
+        id="nombre" 
+        value="{{ request.form['nombre'] }}"
+    ><br><br>
+    <label for="categoria">Categoría: </label>
+    <select name="categoria" id="categoria">
+        {% for categoria in divisiones %}
+        <option value="{{ request.form['categoria'] }}">{{ categoria['nombre'] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label for="tipo">Tipo: </label>
+    <select name="tipos" id="tipos">
+        {% for tipo in caracteristicas %}
+        <option value="{{ request.form['tipo'] }}">{{ tipo['nombre'] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label for="precio">Precio (en bolívares): </label>
+    <input 
+        type="numnber" 
+        name="precio" 
+        id="precio" 
+        value="{{ request.form['precio'] }}"
+    ><br><br>
+    <label for="indicaciones">Indicaciones: </label>
+    <select name="indicaciones" id="indicaciones">
+        {% for indicacion in descripciones %}
+        <option value="{{ request.form['indicaciones'] }}">{{ indicacion['nombre'] }}</option>
+        {% endfor %}
+    </select>
+    <div>
+        <a href="{{ url_for('listar_examenes') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Crear</button>
+    </div>
+</form>
 {% endblock %}

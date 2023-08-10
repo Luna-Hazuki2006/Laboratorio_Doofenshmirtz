@@ -12,7 +12,10 @@ def listar_examenes():
     divisiones = categorias.find({'estatus': 'A'})
     caracteristicas = tipos.find({'estatus': 'A'})
     print(servicios)
-    return render_template('/examenes/listar/index.html', servicios=servicios, divisiones=divisiones, caracteristicas=caracteristicas)
+    return render_template('/examenes/listar/index.html', 
+                           servicios=servicios, 
+                           divisiones=divisiones, 
+                           caracteristicas=caracteristicas)
 
 @app.route('/<categoria>/filtrar_examenes')
 def filtrar_examenes_categorias(categoria):
@@ -28,17 +31,17 @@ def filtrar_examenes_tipos(tipo):
 def crear_examen():
     divisiones = categorias.find({'estatus': 'A'})
     caracteristicas = tipos.find({'estatus': 'A'})
-    descripcioines = indicaciones.find({'estatus': 'A'})
+    descripciones = indicaciones.find({'estatus': 'A'})
     if request.method == 'POST':
         forma = request.form
         numero = examenes.count_documents({})
         nuevo_examen = {
             'id': 'E' + numero, 
             'nombre': forma['nombre'], 
-            'categoria': categorias.find({'nombre': forma['categoria']}), 
-            'tipo': forma['tipo'], 
+            'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
+            'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': forma['indicaciones'], 
+            'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}), 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
@@ -48,7 +51,10 @@ def crear_examen():
                 return redirect(url_for('listar_examenes'))
             else: 
                 flash('Ocurrió un error guardando')
-    return render_template('/examenes/agregar/index.html')
+    return render_template('/examenes/agregar/index.html', 
+                           divisiones=divisiones, 
+                           caracteristicas=caracteristicas, 
+                           descripciones=descripciones)
 
 @app.route('/<id>/consultar_examen', methods=['GET'])
 def consultar_examen(id):
@@ -59,6 +65,9 @@ def consultar_examen(id):
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
 def actualizar_examen(id):
     viejo_examen = examenes.find_one({'id': id, 'estatus': 'A'})
+    divisiones = categorias.find({'estatus': 'A'})
+    caracteristicas = tipos.find({'estatus': 'A'})
+    descripciones = indicaciones.find({'estatus': 'A'})
 
     if not viejo_examen:
         flash('Examen no encontrado')
@@ -69,16 +78,20 @@ def actualizar_examen(id):
         nuevo_examen = {
             'id': forma['id'], 
             'nombre': forma['nombre'], 
-            'categoria': categorias.find({'nombre': forma['categoria']}), 
-            'tipo': forma['tipo'], 
+            'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
+            'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': forma['indicaciones'], 
+            'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}) , 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
             examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
-    return render_template('/examenes/actualizar/index.html', viejo_examen=viejo_examen)
+    return render_template('/examenes/actualizar/index.html', 
+                           viejo_examen=viejo_examen, 
+                           divisiones=divisiones, 
+                           caracteristicas=caracteristicas, 
+                           descripciones=descripciones)
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
 def eliminar_examen(id):
@@ -88,7 +101,7 @@ def eliminar_examen(id):
         flash('Examen no encontrado')
         return redirect(url_for('listar_examenes'))
     
-    nuevo_examen = {
+    examen_eliminado = {
         'id': viejo_examen['id'], 
         'nombre': viejo_examen['nombre'], 
         'categoria': viejo_examen['categoria'], 
@@ -99,7 +112,7 @@ def eliminar_examen(id):
     }
     
     if request.method == 'POST':
-        examenes.delete_one({'id': id, 'estatus': 'A'})
+        examenes.replace_one({'id': id, 'estatus': 'A'}, examen_eliminado)
         flash('Examen eliminado con éxito')
         return redirect(url_for('buscar_clases'))
     return render_template('/eliminar/eliminar/index.html', viejo_examen=viejo_examen)
