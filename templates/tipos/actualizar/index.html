@@ -2,4 +2,27 @@
 
 {% block content %}
 
+<h2>{% block title %}Actualizar tipo{% endblock %}</h2>
+<form method="post">
+    <h4>Datos: </h4>
+    <label for="nombre">Nombre: </label>
+    <input 
+        type="text" 
+        name="nombre" 
+        id="nombre" 
+        value="{{ viejo_tipo['nombre'] }}"
+    ><br><br>
+    <label for="descripcion">Descripción: </label>
+    <input 
+        type="text" 
+        name="descripcion" 
+        id="descripcion" 
+        value="{{ viejo_tipo['descripcion'] }}"
+    >
+    <a href="{{ url_for('listar_tipos') }}">
+        <button type="button">Cancelar</button>
+    </a>
+    <button type="submit">Actualizar</button>
+</form>
+
 {% endblock %}

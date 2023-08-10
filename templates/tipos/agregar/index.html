@@ -2,4 +2,29 @@
 
 {% block content %}
 
+<h1>{% block title %}Crear tipo{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <label for="nombre">Nombre: </label>
+    <input 
+        type="text" 
+        name="nombre" 
+        id="nombre" 
+        value="{{ request.form['nombre'] }}"
+    ><br><br>
+    <label for="descripcion">Descripción: </label>
+    <input 
+        type="text" 
+        name="descripcion" 
+        id="descripcion" 
+        value="{{ request.form['descripcion'] }}"
+    >
+    <div>
+        <a href="{{ url_for('listar_tipos') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Crear</button>
+    </div>
+</form>
+
 {% endblock %}

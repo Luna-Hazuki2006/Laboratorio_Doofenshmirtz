@@ -2,4 +2,25 @@
 
 {% block content %}
 
+<h2 class="centro">{% block title %}Tipos{% endblock %}</h2>
+<a href="{{ url_for('crear_tipos') }}">¿No encuentras un tipo? ¡Créalo!</a>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Opciones</th>
+    </tr>
+    {% for tipo in diferencias %}
+    <tr>
+        <td>{{ tipo['id'] }}</td>
+        <td>{{ tipo['nombre'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_tipo', id=tipo['id']) }}">Consultar</a>
+            <a href="{{ url_for('actualizar_tipo', id=tipo['id']) }}">Actualizar</a>
+            <a href="{{ url_for('eliminar_tipo', id=tipo['id']) }}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}

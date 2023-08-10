@@ -2,5 +2,21 @@
 
 {% block content %}
 
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ indicacion['id'] }} <br>
+        <strong>Nombre: </strong> {{ indicacion['nombre'] }} <br>
+        <strong>Explicación: </strong> {{ indicacion['explicacion'] }} 
+    </p>
+</div>
+<div>
+    <form method="post">
+        <a href="{{ url_for('listar_indicaciones') }}">
+            <button type="button">Volver a la lista</button>
+        </a>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
 
 {% endblock %}
