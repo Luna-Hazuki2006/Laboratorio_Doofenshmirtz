@@ -37,29 +37,29 @@ def crear_examen():
         forma = request.form
         numero = examenes.count_documents({}) + 1
         pprint(forma['categoria'])
-        pprint(forma['indicaciones'])
+        pprint(forma['indicacion'])
         print(forma['tipo'])
         print(forma['precio'])
         print(forma['nombre'])
         pprint(categorias.find_one({'nombre': forma['categoria'], 'estatus': 'A'}))
         pprint(tipos.find_one({'nombre': forma['tipo'], 'estatus': 'A'}))
-        pprint(indicaciones.find_one({'nombre': forma['indicaciones'], 'estatus': 'A'}))
-        # nuevo_examen = {
-        #     'id': 'E' + str(numero), 
-        #     'nombre': forma['nombre'], 
-        #     'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
-        #     'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
-        #     'precio': forma['precio'], 
-        #     'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}), 
-        #     'estatus': 'A'
-        # }
-        # if validar_examen(nuevo_examen):
-        #     id = examenes.insert_one(nuevo_examen).inserted_id
-        #     if id:
-        #         flash('Examen creado con éxito')
-        #         return redirect(url_for('listar_examenes'))
-        #     else: 
-        #         flash('Ocurrió un error guardando')
+        pprint(indicaciones.find_one({'nombre': forma['indicacion'], 'estatus': 'A'}))
+        nuevo_examen = {
+            'id': 'E' + str(numero), 
+            'nombre': forma['nombre'], 
+            'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
+            'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
+            'precio': forma['precio'], 
+            'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}), 
+            'estatus': 'A'
+        }
+        if validar_examen(nuevo_examen):
+            id = examenes.insert_one(nuevo_examen).inserted_id
+            if id:
+                flash('Examen creado con éxito')
+                return redirect(url_for('listar_examenes'))
+            else: 
+                flash('Ocurrió un error guardando')
     return render_template('/examenes/agregar/index.html', 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 

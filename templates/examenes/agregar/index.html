@@ -14,16 +14,14 @@
     <label for="categoria">Categoría: </label>
     <select name="categoria" id="categoria">
         {% for categoria in divisiones %}
-        <option value="{{ request.form['categoria'] }}">{{ categoria['nombre'] }}</option>
+        <option value="{{ categoria }}">{{ categoria['nombre'] }}</option>
         {% endfor %}
-        {{ request.form['categoria'] }}
     </select><br><br>
     <label for="tipo">Tipo: </label>
     <select name="tipo" id="tipo">
         {% for tipo in caracteristicas %}
-        <option value="{{ request.form['tipo'] }}">{{ tipo['nombre'] }}</option>
+        <option value="{{ tipo }}">{{ tipo['nombre'] }}</option>
         {% endfor %}
-        {{ request.form['tipo'] }}
     </select><br><br>
     <label for="precio">Precio (en bolívares): </label>
     <input 
@@ -31,14 +29,14 @@
         min="1"
         name="precio" 
         id="precio" 
+        value="1"
         value="{{ request.form['precio'] }}"
     ><br><br>
-    <label for="indicaciones">Indicaciones: </label>
-    <select name="indicaciones" id="indicaciones">
+    <label for="indicacion">Indicaciones: </label>
+    <select name="indicacion" id="indicaciones">
         {% for indicacion in descripciones %}
-        <option value="{{ request.form['indicaciones'] }}">{{ indicacion['nombre'] }}</option>
+        <option value="{{ indicacion }}">{{ indicacion['nombre'] }}</option>
         {% endfor %}
-        {{ request.form['indicaciones'] }}
     </select>
     <div>
         <a href="{{ url_for('listar_examenes') }}">

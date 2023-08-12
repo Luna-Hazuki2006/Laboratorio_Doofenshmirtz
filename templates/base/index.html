@@ -4,17 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='index.js') }}" defer></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <h1>Laboratorios Doofenshmirtz</h1>
-    <p>
-        <a href="{{ url_for('listar_categorias') }}">Sección de categorías</a>
-        <a href="{{ url_for('listar_examenes') }}">Sección de exámenes</a>
-        <a href="{{ url_for('listar_indicaciones') }}">Sección de indicaciones</a>
-        <a href="{{ url_for('listar_tipos') }}">Sección de tipos</a>
-        <a href="{{ url_for('reportes') }}">Revisar reportes</a>
-    </p>
+    <header>
+        <h1>Laboratorios Doofenshmirtz</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ url_for('listar_categorias') }}">Sección de categorías</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_examenes') }}">Sección de exámenes</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_indicaciones') }}">Sección de indicaciones</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_tipos') }}">Sección de tipos</a>
+            </li>
+            <li>
+                <a href="{{ url_for('reportes') }}">Revisar reportes</a>
+            </li>
+        </ul>
+    </nav>
     {% for mensaje in get_flashed_messages() %}
     <p style="color: red;">{{ mensaje }}</p>
     {% endfor %}
