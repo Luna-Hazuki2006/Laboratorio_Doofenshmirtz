@@ -21,3 +21,15 @@ Laboratorio Doofenshmirtz desea una aplicación web que les permita gestionar su
 - Cuál es la indicación de examen más común.
 
 - Una lista que agrupe los exámenes por precio según el intervalo de: 1 - 100 bs, 101 - 200 bs, 201 - 300 bs, 301 - 500 bs, 501+ bs. Esta lista deberá indicar cuántos exámenes hay en cada intervalo.
+
+Esta aplicación deberá cumplir con los siguientes criterios técnicos para poder ser evaluada:
+
+1) Ser una aplicación web, desarrollada utilizando Flask, Jinja2 y PyMongo, además de una librería de CSS a su gusto (obligatorio).
+
+2) Utilizar git en un repositorio remoto, con un servicio como GitHub o GitLab. (obligatorio)
+
+3) Estar desplegada en un servicio en línea, como puede ser PythonAnywhere, y contactar con MongoDB Atlas en una capa gratuita. (opcional - puntos adicionales)
+
+4) Utilizar una librería del tipo ChartJS para la visualización de la data en los reportes (opcional - puntos adicionales).
+
+5) Ser atractiva visualmente, contar con mensajes de éxito y error, con las validaciones correspondientes, etc. (evidentemente obligatorio)
