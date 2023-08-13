@@ -5,23 +5,30 @@
 <h2>{% block title %}Lista de exámenes{% endblock %}</h2>
 <a href="{{ url_for('crear_examen') }}">¿No encuentras un examen? ¡Créalo!</a> 
 <section>
-    <h3>Filtrar exámenes</h3>
-    <div>
-        <label for="categorias">Categorías: </label>
-        <select name="categorias" id="categorias">
-            {% for categoria in divisiones %}
-            <option value="{{ categoria['nombre'] }}">{{ categoria['nombre'] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div>
-        <label for="tipos">Tipos: </label>
-        <select name="tipos" id="tipos">
-            {% for tipo in caracteristicas %}
-            <option value="{{ tipo['nombre'] }}">{{ tipo['nombre'] }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    <form method="post">
+        <h3>Filtrar exámenes</h3>
+        <div>
+            <label for="categoria">Categorías: </label>
+            <select name="categoria" id="categoria">
+                <option value="{{ categoria }}">Todas las categorías</option>
+                {% for categoria in divisiones %}
+                <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="tipo">Tipos: </label>
+            <select name="tipo" id="tipo">
+                <option value="{{ tipo }}">Todos los tipos</option>
+                {% for tipo in caracteristicas %}
+                <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button type="submit">Filtrar</button>
+        </div>
+    </form>
 </section>
 
 <table>

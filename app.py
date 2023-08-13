@@ -7,26 +7,46 @@ from db import examenes, categorias, indicaciones, tipos, usuarios
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def listar_examenes():
     servicios = examenes.find({'estatus': 'A'})
     divisiones = categorias.find({'estatus': 'A'})
     caracteristicas = tipos.find({'estatus': 'A'})
-    print(servicios)
+    if request.method == 'POST': 
+        forma = request.form
+        tipo = forma['tipo']
+        categoria = forma['categoria']
+        print(tipo)
+        print(categoria)
+        servicios = filtrar_examenes(categoria, tipo)
+        return render_template('/examenes/listar/index.html', 
+                                servicios=servicios, 
+                                divisiones=divisiones, 
+                                caracteristicas=caracteristicas)
     return render_template('/examenes/listar/index.html', 
                            servicios=servicios, 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas)
 
-@app.route('/<categoria>/filtrar_examenes')
-def filtrar_examenes_categorias(categoria):
-    servicios = examenes.find({'categoria': categoria, 'estatus': 'A'})
-    return render_template('/examenes/listar/index.html', servicios=servicios)
-
-@app.route('/<tipo>/filtrar_examenes_tipo')
-def filtrar_examenes_tipos(tipo):
-    servicios = examenes.find({'tipo': tipo, 'estatus': 'A'})
-    return render_template('/examenes/listar/index.html', servicios=servicios)
+def filtrar_examenes(categoria, tipo):
+    servicios = []
+    if len(tipo) != 0 and len(categoria) != 0:
+        print('si y si')
+        categoria = categorias.find_one({'id': categoria, 'estatus': 'A'})
+        tipo = tipos.find_one({'id': tipo, 'estatus': 'A'})
+        servicios = examenes.find({'categoria': categoria, 'tipo': tipo, 'estatus': 'A'})
+    elif len(tipo) == 0 and len(categoria) != 0: 
+        print('no y si')
+        categoria = categorias.find_one({'id': categoria, 'estatus': 'A'})
+        servicios = examenes.find({'categoria': categoria, 'estatus': 'A'})
+    elif len(tipo) != 0 and len(categoria) == 0: 
+        print('si y no')
+        tipo = tipos.find_one({'id': tipo, 'estatus': 'A'})
+        servicios = examenes.find({'tipo': tipo, 'estatus': 'A'})
+    else: 
+        print('no y no')
+        servicios = examenes.find({'estatus': 'A'})
+    return servicios
 
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
@@ -121,13 +141,13 @@ def eliminar_examen(id):
         'tipo': viejo_examen['tipo'], 
         'precio': viejo_examen['precio'], 
         'indicaciones': viejo_examen['indicaciones'], 
-        'estatus': 'A'
+        'estatus': 'I'
     }
     
     if request.method == 'POST':
         examenes.replace_one({'id': id, 'estatus': 'A'}, examen_eliminado)
         flash('Examen eliminado con éxito')
-        return redirect(url_for('buscar_clases'))
+        return redirect(url_for('listar_examenes'))
     return render_template('/examenes/eliminar/index.html', viejo_examen=viejo_examen)
 
 @app.route('/listar_indicaciones', methods=['GET'])
