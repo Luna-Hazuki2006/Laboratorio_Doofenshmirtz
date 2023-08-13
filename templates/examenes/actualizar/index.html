@@ -16,13 +16,21 @@
         <label for="categoria">Categoría: </label>
         <select name="categoria" id="categoria">
             {% for categoria in divisiones %}
-            <option value="{{ viejo_examen['categoria'] }}">{{ categoria['nombre'] }}</option>
+            {% if viejo_examen['categoria'] == categoria %}
+            <option value="{{ categoria['id'] }}" selected>{{ categoria['nombre'] }}</option>
+            {% else %}
+            <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
+            {% endif %}
             {% endfor %}
         </select><br><br>
         <label for="tipo">Tipo: </label>
-        <select name="tipos" id="tipos">
+        <select name="tipo" id="tipo">
             {% for tipo in caracteristicas %}
-            <option value="{{ viejo_examen['tipo'] }}">{{ tipo['nombre'] }}</option>
+            {% if viejo_examen['tipo'] == tipo %}
+            <option value="{{ tipo['id'] }}" selected>{{ tipo['nombre'] }}</option>
+            {% else %}
+            <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
+            {% endif %}
             {% endfor %}
         </select><br><br>
         <label for="precio">Precio (en bolívares): </label>
@@ -32,11 +40,16 @@
             id="precio" 
             value="{{ viejo_examen['precio'] }}"
         ><br><br>
-        <label for="indicaciones">Indicaciones: </label>
-        <select name="indicaciones" id="indicaciones">
+        <label for="indicacion">Indicaciones: </label>
+        <select name="indicacion" id="indicacion">
             {% for indicacion in descripciones %}
-            <option value="{{ viejo_examen['indicaciones'] }}">{{ indicacion['nombre'] }}</option>
+            {% if viejo_examen['indicaciones'] == indicacion %}
+            <option value="{{ indicacion['id'] }}" selected>{{ indicacion['nombre'] }}</option>
+            {% else %}
+            <option value="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</option>
+            {% endif %}
             {% endfor %}
+            {{ viejo_examen['indicaciones'] }}
         </select>
     </div>
     <div>

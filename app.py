@@ -41,16 +41,16 @@ def crear_examen():
         print(forma['tipo'])
         print(forma['precio'])
         print(forma['nombre'])
-        pprint(categorias.find_one({'nombre': forma['categoria'], 'estatus': 'A'}))
-        pprint(tipos.find_one({'nombre': forma['tipo'], 'estatus': 'A'}))
-        pprint(indicaciones.find_one({'nombre': forma['indicacion'], 'estatus': 'A'}))
+        pprint(forma['categoria'])
+        pprint(forma['tipo'])
+        pprint(forma['indicacion'])
         nuevo_examen = {
             'id': 'E' + str(numero), 
             'nombre': forma['nombre'], 
-            'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
-            'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
+            'categoria': categorias.find_one({'id': forma['categoria'], 'estatus': 'A'}), 
+            'tipo': tipos.find_one({'id': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}), 
+            'indicaciones': indicaciones.find_one({'id': forma['indicacion'], 'estatus': 'A'}), 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
@@ -84,15 +84,19 @@ def actualizar_examen(id):
     
     if request.method == 'POST':
         forma = request.form
+        pprint(forma['tipo'])
+        pprint(forma['categoria'])
+        pprint(forma['indicacion'])
         nuevo_examen = {
-            'id': forma['id'], 
+            'id': viejo_examen['id'], 
             'nombre': forma['nombre'], 
-            'categoria': categorias.find({'nombre': forma['categoria'], 'estatus': 'A'}), 
-            'tipo': tipos.find({'nombre': forma['tipo'], 'estatus': 'A'}), 
+            'categoria': categorias.find_one({'id': forma['categoria'], 'estatus': 'A'}), 
+            'tipo': tipos.find_one({'id': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': indicaciones.find({'nombre': forma['indicaciones'], 'estatus': 'A'}) , 
+            'indicaciones': indicaciones.find_one({'id': forma['indicacion'], 'estatus': 'A'}) , 
             'estatus': 'A'
         }
+        pprint(nuevo_examen)
         if validar_examen(nuevo_examen):
             examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))

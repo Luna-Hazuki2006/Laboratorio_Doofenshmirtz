@@ -14,13 +14,13 @@
     <label for="categoria">Categoría: </label>
     <select name="categoria" id="categoria">
         {% for categoria in divisiones %}
-        <option value="{{ categoria }}">{{ categoria['nombre'] }}</option>
+        <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
         {% endfor %}
     </select><br><br>
     <label for="tipo">Tipo: </label>
     <select name="tipo" id="tipo">
         {% for tipo in caracteristicas %}
-        <option value="{{ tipo }}">{{ tipo['nombre'] }}</option>
+        <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
         {% endfor %}
     </select><br><br>
     <label for="precio">Precio (en bolívares): </label>
@@ -33,9 +33,9 @@
         value="{{ request.form['precio'] }}"
     ><br><br>
     <label for="indicacion">Indicaciones: </label>
-    <select name="indicacion" id="indicaciones">
+    <select name="indicacion" id="indicacion">
         {% for indicacion in descripciones %}
-        <option value="{{ indicacion }}">{{ indicacion['nombre'] }}</option>
+        <option value="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</option>
         {% endfor %}
     </select>
     <div>
