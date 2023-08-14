@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from pprint import pprint
-from bson.objectid import ObjectId
 from validaciones import validar_categoria, validar_examen, validar_indicacion, validar_tipos
 from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
@@ -369,6 +368,10 @@ def eliminar_tipo(id):
 @app.route('/reportes', methods=['GET'])
 def reportes():
     return render_template('/reportes/index.html')
+
+@app.route('/registrar_sesion', methods=['GET', 'POST'])
+def registrar_sesion():
+    return render_template('/usuarios/registrar_sesion/index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
