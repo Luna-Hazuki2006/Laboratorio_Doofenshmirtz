@@ -55,14 +55,23 @@ def crear_examen():
     if request.method == 'POST':
         forma = request.form
         numero = examenes.count_documents({}) + 1
-        pprint(forma['categoria'])
-        pprint(forma['indicacion'])
-        print(forma['tipo'])
-        print(forma['precio'])
-        print(forma['nombre'])
-        pprint(forma['categoria'])
-        pprint(forma['tipo'])
-        pprint(forma['indicacion'])
+        # pprint(forma['categoria'])
+        # pprint(forma['indicacion'])
+        # print(forma['tipo'])
+        # print(forma['precio'])
+        # print(forma['nombre'])
+        # pprint(forma['categoria'])
+        # pprint(forma['tipo'])
+        # pprint(forma['indicacion'])
+        lista = []
+        # for indica in descripciones:
+            # pprint(forma['indicacion'])
+            # if indica['id'] == forma[indica['id']]:
+            #     lista.append(forma[indica['id']])
+            #     pprint(forma[indica['id']])
+        pprint(request.form.getlist('check'))
+        for item in request.form.getlist('check'):
+            lista.append(indicaciones.find_one(item))
         nuevo_examen = {
             'id': 'E' + str(numero), 
             'nombre': forma['nombre'], 
@@ -106,6 +115,13 @@ def actualizar_examen(id):
         pprint(forma['tipo'])
         pprint(forma['categoria'])
         pprint(forma['indicacion'])
+        lista = []
+        for indica in descripciones:
+            pprint(forma['indicacion'])
+            if indica['id'] == forma[indica['id']]:
+                lista.append(forma[indica['id']])
+                pprint(forma[indica['id']])
+        pprint(lista)
         nuevo_examen = {
             'id': viejo_examen['id'], 
             'nombre': forma['nombre'], 
@@ -367,11 +383,22 @@ def eliminar_tipo(id):
 
 @app.route('/reportes', methods=['GET'])
 def reportes():
+    
     return render_template('/reportes/index.html')
 
 @app.route('/registrar_sesion', methods=['GET', 'POST'])
 def registrar_sesion():
+    if request.method == 'POST':
+        forma = request.form
+
     return render_template('/usuarios/registrar_sesion/index.html')
+
+@app.route('/inciar_sesion', methods=['GET', 'POST'])
+def iniciar_sesion():
+    if request.method == 'POST':
+        forma = request.form
+
+    return render_template('/usuarios/iniciar_sesion/index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

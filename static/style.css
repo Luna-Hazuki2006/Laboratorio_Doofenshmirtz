@@ -38,3 +38,12 @@ li a {
 li a:hover {
     background-color: #111111;
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header div button {
+    min-height: calc(100% - 30px);
+}
