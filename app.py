@@ -55,23 +55,9 @@ def crear_examen():
     if request.method == 'POST':
         forma = request.form
         numero = examenes.count_documents({}) + 1
-        # pprint(forma['categoria'])
-        # pprint(forma['indicacion'])
-        # print(forma['tipo'])
-        # print(forma['precio'])
-        # print(forma['nombre'])
-        # pprint(forma['categoria'])
-        # pprint(forma['tipo'])
-        # pprint(forma['indicacion'])
         lista = []
-        # for indica in descripciones:
-            # pprint(forma['indicacion'])
-            # if indica['id'] == forma[indica['id']]:
-            #     lista.append(forma[indica['id']])
-            #     pprint(forma[indica['id']])
-        pprint(request.form.getlist('check'))
         for item in request.form.getlist('check'):
-            lista.append(indicaciones.find_one(item))
+            lista.append(indicaciones.find_one({'id': item, 'estatus': 'A'}))
         nuevo_examen = {
             'id': 'E' + str(numero), 
             'nombre': forma['nombre'], 
