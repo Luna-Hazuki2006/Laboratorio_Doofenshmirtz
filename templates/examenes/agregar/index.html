@@ -39,18 +39,9 @@
         <div>
             {% for indicacion in descripciones %}
             <input type="checkbox" name="check" value="{{ indicacion['id'] }}" {% if check in checked_items %}checked{% endif %}>
-            <!-- <input type="checkbox" name="box1" value="box1" {{'checked="checked"' if box1 else ""}}/> -->
             <label for="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</label><br>
             {% endfor %}
         </div>
-        <!-- <div>
-            <label for="indicacion">Indicaciones: </label>
-            <select name="indicacion" id="indicacion">
-            {% for indicacion in descripciones %}
-            <option value="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</option>
-            {% endfor %}
-            </select>
-        </div> -->
     </div><br>
     <div>
         <a href="{{ url_for('listar_examenes') }}">

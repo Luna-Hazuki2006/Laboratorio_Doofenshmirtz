@@ -78,7 +78,7 @@ def crear_examen():
             'categoria': categorias.find_one({'id': forma['categoria'], 'estatus': 'A'}), 
             'tipo': tipos.find_one({'id': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': indicaciones.find_one({'id': forma['indicacion'], 'estatus': 'A'}), 
+            'indicaciones': lista, 
             'estatus': 'A'
         }
         if validar_examen(nuevo_examen):
