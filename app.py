@@ -370,7 +370,25 @@ def eliminar_tipo(id):
 @app.route('/reportes', methods=['GET'])
 def reportes():
     servicios = examenes.find({'estatus': 'A'})
-    return render_template('/reportes/index.html')
+    apreciado = {
+        '1 - 100': [], 
+        '101 - 200': [], 
+        '201 - 300': [], 
+        '301 - 500': [], 
+        '501 +': []
+    }
+    for servicio in servicios:
+        if int(servicio['precio']) >= 1 and int(servicio['precio']) <= 100:
+            apreciado['1 - 100'].append(servicio)
+        elif int(servicio['precio']) >= 101 and int(servicio['precio']) <= 200:
+            apreciado['101 - 200'].append(servicio)
+        elif int(servicio['precio']) >= 201 and int(servicio['precio']) <= 300: 
+            apreciado['201 - 300'].append(servicio)
+        elif int(servicio['precio']) >= 301 and int(servicio['precio']) <= 500: 
+            apreciado['301 - 500'].append(servicio)
+        elif int(servicio['precio']) >= 501: 
+            apreciado['501 +'].append(servicio)
+    return render_template('/reportes/index.html', apreciado=apreciado)
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
 def registrar_usuario():
