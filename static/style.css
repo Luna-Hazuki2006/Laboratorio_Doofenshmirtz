@@ -17,6 +17,15 @@ body {
     margin: 10px;
 }
 
+.esconder {
+    display: none;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-around;
+}
+
 /* table, td, th {
     border: 1px solid black;
 } */

@@ -369,7 +369,7 @@ def eliminar_tipo(id):
 
 @app.route('/reportes', methods=['GET'])
 def reportes():
-    
+    servicios = examenes.find({'estatus': 'A'})
     return render_template('/reportes/index.html')
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
@@ -388,6 +388,7 @@ def iniciar_sesion():
     if request.method == 'POST':
         forma = request.form
         nombre = forma['usuario']
+        clave = forma['contraseña']
 
     return render_template('/usuarios/iniciar_sesion/index.html')
 
