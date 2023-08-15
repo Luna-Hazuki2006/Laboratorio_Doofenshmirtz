@@ -376,6 +376,10 @@ def reportes():
 def registrar_sesion():
     if request.method == 'POST':
         forma = request.form
+        nombre = forma['usuario']
+        clave = forma['contraseña']
+        repetida = forma['repetida']
+        
 
     return render_template('/usuarios/registrar_sesion/index.html')
 

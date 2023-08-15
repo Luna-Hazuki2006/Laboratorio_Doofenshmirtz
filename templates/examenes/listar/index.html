@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h2>{% block title %}Lista de exámenes{% endblock %}</h2>
+<h2 class="centro">{% block title %}Lista de exámenes{% endblock %}</h2>
 <a href="{{ url_for('crear_examen') }}">¿No encuentras un examen? ¡Créalo!</a> 
-<section>
+<section class="redondeado">
     <form method="post">
         <h3>Filtrar exámenes</h3>
         <div>
@@ -30,7 +30,6 @@
         </div>
     </form>
 </section>
-
 <table>
     <tr>
         <th>Código</th>
