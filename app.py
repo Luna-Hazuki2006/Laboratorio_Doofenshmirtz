@@ -372,21 +372,22 @@ def reportes():
     
     return render_template('/reportes/index.html')
 
-@app.route('/registrar_sesion', methods=['GET', 'POST'])
-def registrar_sesion():
+@app.route('/registrar_usuario', methods=['GET', 'POST'])
+def registrar_usuario():
     if request.method == 'POST':
         forma = request.form
         nombre = forma['usuario']
         clave = forma['contraseña']
         repetida = forma['repetida']
-        
 
-    return render_template('/usuarios/registrar_sesion/index.html')
+
+    return render_template('/usuarios/registrar_usuario/index.html')
 
 @app.route('/inciar_sesion', methods=['GET', 'POST'])
 def iniciar_sesion():
     if request.method == 'POST':
         forma = request.form
+        nombre = forma['usuario']
 
     return render_template('/usuarios/iniciar_sesion/index.html')
 

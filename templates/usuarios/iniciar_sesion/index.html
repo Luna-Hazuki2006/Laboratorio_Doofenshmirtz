@@ -4,16 +4,16 @@
 
 <form method="post">
     <div>
-        <label for="">Nombre de usuario: </label>
-        <input type="text" name="" id="" required>
-        <label for="">Contraseña: </label>
-        <input type="password" name="" id="" required>
+        <label for="usuario">Nombre de usuario: </label>
+        <input type="text" name="usuario" id="usuario" required>
+        <label for="contraseña">Contraseña: </label>
+        <input type="password" name="contraseña" id="contraseña" required>
     </div>
     <div>
         <button type="submit">Iniciar sesión</button>
     </div>
     <p>
-        <a href="{{ url_for('registrar_sesion') }}">¿No tienes una cuenta? ¡Regístrate!</a>
+        <a href="{{ url_for('registrar_usuario') }}">¿No tienes una cuenta? ¡Regístrate!</a>
     </p>
 </form>
 
