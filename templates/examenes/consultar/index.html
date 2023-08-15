@@ -12,7 +12,7 @@
         <strong>Categoría: </strong> {{ examen['categoria']['nombre'] }} <br>
         <strong>Tipo: </strong> {{ examen['tipo']['nombre'] }} <br>
         <strong>Precio: </strong> {{ examen['precio'] }} bs <br>
-        <strong>Indicaciones: </strong> {{ examen['indicaciones']['nombre'] }}
+        <strong>Indicaciones: </strong>
         <ul>
             {% for indicacion in examen['indicaciones'] %}
             <li>{{ indicacion['nombre'] }}</li>
