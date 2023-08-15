@@ -3,25 +3,52 @@
 {% block content %}
 
 <section class="botones">
-    <button class="button button-clear" type="button">Exámenes por categoría</button>
+    <button class="button button-clear" type="button" onclick="categorias();">Exámenes por categoría</button>
     <button class="button button-clear" type="button">Indicación más común</button>
-    <button class="button button-clear" type="button">Exámenes por precios</button>
+    <button class="button button-clear" type="button" onclick="precios();">Exámenes por precios</button>
 </section>
-<section class="">
-<ul id="categorias">
-    <ul>
-        {% for servicio in apreciado['1 - 100'] %}
-        <li>{{ servicio }}</li>
+<section class="esconder">
+    <div id="categorias">
+        {% for categoria in categorizado %}
+        <ul id="{{ categoria['nombre'] }}">
+            {% for examen in categoria['lista'] %}
+            <li>{{ examen }}</li>
+            {% endfor %}
+        </ul>
         {% endfor %}
+    </div>
+    <ul id="indicaciones">
     </ul>
-</ul>
-<ul id="indicaciones">
-
-</ul>
-<ul id="precios">
-
-</ul>
+    <ul id="precios">
+        <ul id="1 - 100">
+            {% for servicio in apreciado['1 - 100'] %}
+            <li>{{ servicio['id'] }}</li>
+            {% endfor %}
+        </ul>
+        <ul id="101 - 200">
+            {% for servicio in apreciado['101 - 200'] %}
+            <li>{{ servicio['id'] }}</li>
+            {% endfor %}
+        </ul>
+        <ul id="201 - 300">
+            {% for servicio in apreciado['201 - 300'] %}
+            <li>{{ servicio['id'] }}</li>
+            {% endfor %}
+        </ul>
+        <ul id="301 - 500">
+            {% for servicio in apreciado['301 - 500'] %}
+            <li>{{ servicio['id'] }}</li>
+            {% endfor %}
+        </ul>
+        <ul id="501 +">
+            {% for servicio in apreciado['501 +'] %}
+            <li>{{ servicio['id'] }}</li>
+            {% endfor %}
+        </ul>
+    </ul>
 </section>
-<canvas id="myChart"></canvas>
+<section id="charts">
+    <canvas id="myChart"></canvas>
+</section>
 
 {% endblock %}

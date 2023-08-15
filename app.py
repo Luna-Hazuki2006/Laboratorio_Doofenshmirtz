@@ -370,6 +370,8 @@ def eliminar_tipo(id):
 @app.route('/reportes', methods=['GET'])
 def reportes():
     servicios = examenes.find({'estatus': 'A'})
+    divisiones = categorias.find({'estatus': 'A'})
+    indicaciones = categorias.find({'estatus': 'A'})
     apreciado = {
         '1 - 100': [], 
         '101 - 200': [], 
@@ -377,6 +379,8 @@ def reportes():
         '301 - 500': [], 
         '501 +': []
     }
+    categorizado = []
+    indicados = []
     for servicio in servicios:
         if int(servicio['precio']) >= 1 and int(servicio['precio']) <= 100:
             apreciado['1 - 100'].append(servicio)
@@ -388,7 +392,28 @@ def reportes():
             apreciado['301 - 500'].append(servicio)
         elif int(servicio['precio']) >= 501: 
             apreciado['501 +'].append(servicio)
-    return render_template('/reportes/index.html', apreciado=apreciado)
+    for categoria in divisiones:
+        lista = []
+        dato = {}
+        for servicio in examenes.find({'estatus': 'A'}):
+            if servicio['categoria']['nombre'] == categoria['nombre']: 
+                lista.append(servicio['id'])
+        dato['nombre'] = categoria['nombre']
+        dato['lista'] = lista
+        categorizado.append(dato)
+    # for indicacion in indicaciones:
+    #     lista = []
+    #     dato = {}
+    #     for servicio in examenes.find({'estatus': 'A'}):
+    #         for caso in servicio['indicaciones']:
+    #             if caso['nombre'] == indicacion['nombre']:
+    #                 lista.append(servicio['id'])
+    #     dato['nombre'] = indicacion['nombre']
+    #     dato['lista'] = lista
+    #     indicados.append(dato)
+    # pprint(indicados)
+            
+    return render_template('/reportes/index.html', apreciado=apreciado, categorizado=categorizado)
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
 def registrar_usuario():
