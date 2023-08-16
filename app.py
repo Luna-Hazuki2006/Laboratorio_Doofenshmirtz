@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from pprint import pprint
-from validaciones import validar_categoria, validar_examen, validar_indicacion, validar_tipos
+from validaciones import *
 from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
@@ -45,6 +45,7 @@ def filtrar_examenes(categoria, tipo):
         servicios = examenes.find({'estatus': 'A'})
     return servicios
 
+
 @app.route('/crear_examen', methods=['GET', 'POST'])
 def crear_examen():
     divisiones = categorias.find({'estatus': 'A'})
@@ -58,14 +59,14 @@ def crear_examen():
             lista.append(indicaciones.find_one({'id': item, 'estatus': 'A'}))
         nuevo_examen = {
             'id': 'E' + str(numero), 
-            'nombre': forma['nombre'], 
+            'nombre': str(forma['nombre']), 
             'categoria': categorias.find_one({'id': forma['categoria'], 'estatus': 'A'}), 
             'tipo': tipos.find_one({'id': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
             'indicaciones': lista, 
             'estatus': 'A'
         }
-        if validar_examen(nuevo_examen):
+        if validar_crear_examen(nuevo_examen):
             id = examenes.insert_one(nuevo_examen).inserted_id
             if id:
                 flash('Examen creado con éxito')
@@ -116,7 +117,7 @@ def actualizar_examen(id):
             'estatus': 'A'
         }
         pprint(nuevo_examen)
-        if validar_examen(nuevo_examen):
+        if validar_crear_examen(nuevo_examen):
             examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
     return render_template('/examenes/actualizar/index.html', 
@@ -165,13 +166,14 @@ def crear_indicacion():
             'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
-        if validar_indicacion(nueva_indicacion):
+        if validar_crear_indicacion(nueva_indicacion):
             id = indicaciones.insert_one(nueva_indicacion).inserted_id
             if id:
                 flash('Indicación creada con éxito')
                 return redirect(url_for('listar_indicaciones'))
             else: 
                 flash('Ocurrió un error guardando')
+        else: flash('Se ingresó un nombre repetido')
     return render_template('/indicaciones/agregar/index.html')
 
 @app.route('/<id>/consultar_indicacion', methods=['GET'])
@@ -195,7 +197,7 @@ def actualizar_indicacion(id):
             'explicacion': forma['explicacion'], 
             'estatus': 'A'
         }
-        if validar_indicacion(nueva_indicacion):
+        if validar_editar_indicacion(nueva_indicacion):
             indicaciones.replace_one({'id': id}, nueva_indicacion)
             return redirect(url_for('listar_indicaciones'))
     return render_template('/indicaciones/actualizar/index.html', vieja_indicacion=vieja_indicacion)
@@ -237,13 +239,14 @@ def crear_categoria():
             'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
-        if validar_categoria(nueva_categoria):
+        if validar_crear_categoria(nueva_categoria):
             id = categorias.insert_one(nueva_categoria).inserted_id
             if id:
                 flash('Categoría creada con éxito')
                 return redirect(url_for('listar_categorias'))
             else: 
                 flash('Ocurrió un error guardando')
+        else: flash('Se ingresó un nombre repetido')
     return render_template('/categorias/agregar/index.html')
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
@@ -267,7 +270,7 @@ def actualizar_categoria(id):
             'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
-        if validar_categoria(nueva_categoria):
+        if validar_editar_categoria(nueva_categoria):
             categorias.replace_one({'id': id, 'estatus': 'A'}, nueva_categoria)
             return redirect(url_for('listar_categorias'))
     return render_template('/categorias/actualizar/index.html', vieja_categoria=vieja_categoria)
@@ -304,18 +307,19 @@ def crear_tipo():
         numero = tipos.count_documents({}) + 1
         forma = request.form
         nuevo_tipo = {
-            'id': 'C' + str(numero), 
+            'id': 'T' + str(numero), 
             'nombre': forma['nombre'], 
             'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
-        if validar_tipos(nuevo_tipo):
+        if validar_crear_tipos(nuevo_tipo):
             id = tipos.insert_one(nuevo_tipo).inserted_id
             if id:
                 flash('Tipo creado con éxito')
                 return redirect(url_for('listar_tipos'))
             else: 
                 flash('Ocurrió un error guardando')
+        else: flash('Se ingresó un nombre repetido')
     return render_template('/tipos/agregar/index.html')
 
 @app.route('/<id>/consultar_tipos', methods=['GET'])
@@ -339,7 +343,7 @@ def actualizar_tipo(id):
             'descripcion': forma['descripcion'], 
             'estatus': 'A'
         }
-        if validar_tipos(nuevo_tipo):
+        if validar_editar_tipos(nuevo_tipo):
             tipos.replace_one({'id': id, 'estatus': 'A'}, nuevo_tipo)
             return redirect(url_for('listar_tipos'))
     return render_template('/tipos/actualizar/index.html', viejo_tipo=viejo_tipo)

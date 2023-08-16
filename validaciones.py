@@ -1,11 +1,100 @@
-def validar_examen(examen):
-    return True
+from db import examenes, categorias, indicaciones, tipos, usuarios
 
-def validar_categoria(categoria):
-    return True
+def validar_crear_examen(examen):
+    verdad = True
+    for esto in examenes.find({'estatus': 'A'}):
+        if examen['id'] == esto['id']:
+            verdad = False
+            break
+        elif examen['nombre'] == esto['nombre']:
+            verdad = False
+            break
+    if not isinstance(examen['precio'], int, float):
+        verdad = False
+    
+    return verdad
 
-def validar_indicacion(indicacion):
-    return True
+def validar_editar_examen(examen):
+    verdad = True
+    for esto in examenes.find({'estatus': 'A'}):
+        if examen['id'] == esto['id']:
+            verdad = False
+            break
+        elif examen['nombre'] == esto['nombre']:
+            verdad = False
+            break
+    if not isinstance(examen['precio'], int, float):
+        verdad = False
+    
+    return verdad
 
-def validar_tipos(tipo):
-    return True
+def validar_crear_categoria(categoria):
+    verdad = True
+    for esto in categorias.find({'estatus': 'A'}):
+        if (categoria['id'] == esto['id'] or 
+            categoria['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_editar_categoria(categoria):
+    verdad = True
+    for esto in categorias.find({'estatus': 'A'}):
+        if (categoria['id'] != esto['id'] and 
+            categoria['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_crear_indicacion(indicacion):
+    verdad = True
+    for esto in indicaciones.find({'estatus': 'A'}): 
+        if (indicacion['id'] == esto['id'] or 
+            indicacion['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_editar_indicacion(indicacion):
+    verdad = True
+    for esto in indicaciones.find({'estatus': 'A'}): 
+        if (indicacion['id'] == esto['id'] or 
+            indicacion['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_crear_tipos(tipo):
+    verdad = True
+    for esto in tipos.find({'estatus': 'A'}): 
+        if (tipo['id'] == esto['id'] or 
+            tipo['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_editar_tipos(tipo):
+    verdad = True
+    for esto in tipos.find({'estatus': 'A'}): 
+        if (tipo['id'] == esto['id'] or 
+            tipo['nombre'] == esto['nombre']):
+            verdad = False
+            break
+    return verdad
+
+def validar_registrar(usuario): 
+    verdad = True
+    for esto in usuarios.find({'estatus': 'A'}): 
+        if usuario['nombre'] == esto['nombre']:
+            verdad = False
+            break
+    return verdad
+
+def validar_iniciar(usuario): 
+    verdad = True
+    for esto in usuarios.find({'estatus': 'A'}): 
+        if (not usuario['nombre'] == esto['nombre'] and 
+            not usuario['contraseña'] == esto['contraseña']):
+            verdad = False
+            break
+    return verdad
