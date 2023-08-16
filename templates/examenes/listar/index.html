@@ -44,8 +44,12 @@
             <td>{{ servicio['nombre'] }}</td>
             <td>{{ servicio['precio'] }}</td>
             <td>
-                <a href="{{ url_for('consultar_examen', id=servicio['id']) }}">Consultar</a>
-                <a href="{{ url_for('actualizar_examen', id=servicio['id']) }}">Actualizar</a>
+                <a href="{{ url_for('consultar_examen', id=servicio['id']) }}">
+                    <img class="pequeño" src="{{ url_for('static', filename='consultar.png') }}" alt="Consultar">
+                </a>
+                <a href="{{ url_for('actualizar_examen', id=servicio['id']) }}">
+                    <img class="pequeño" src="{{ url_for('static', filename='actualizar.png') }}" alt="Actualizar">
+                </a>
                 <a href="{{ url_for('eliminar_examen', id=servicio['id']) }}">
                     <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
                 </a>

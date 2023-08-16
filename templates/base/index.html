@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
     <!-- You should properly set the path from the main file. -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='him.ico') }}" type="image/x-icon">
     <script src="{{ url_for('static', filename='index.js') }}" defer></script>
@@ -23,11 +25,12 @@
         </div>
         <div>
             <a href="{{ url_for('registrar_usuario') }}">
-                <button type="button">Registrar sesión</button>
+                <button type="button">Registrar usuario</button>
             </a>
             <a href="{{ url_for('iniciar_sesion') }}">
                 <button class="button button-outline" type="button">Iniciar sesión</button>
             </a>
+            <button onclick="saludar();">Hola</button>
         </div>
     </header>
     <nav>

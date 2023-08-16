@@ -14,8 +14,12 @@
         <td>{{ indicacion['id'] }}</td>
         <td>{{ indicacion['nombre'] }}</td>
         <td>
-            <a href="{{ url_for('consultar_indicacion', id=indicacion['id']) }}">Consultar</a>
-            <a href="{{ url_for('actualizar_indicacion', id=indicacion['id']) }}">Actualizar</a>
+            <a href="{{ url_for('consultar_indicacion', id=indicacion['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='consultar.png') }}" alt="Consultar">
+            </a>
+            <a href="{{ url_for('actualizar_indicacion', id=indicacion['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='actualizar.png') }}" alt="Actualizar">
+            </a>
             <a href="{{ url_for('eliminar_indicacion', id=indicacion['id']) }}">
                 <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
             </a>
