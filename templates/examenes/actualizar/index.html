@@ -40,17 +40,17 @@
             id="precio" 
             value="{{ viejo_examen['precio'] }}"
         ><br><br>
-        <label for="indicacion">Indicaciones: </label>
-        <select name="indicacion" id="indicacion">
-            {% for indicacion in descripciones %}
-            {% if viejo_examen['indicaciones'] == indicacion %}
-            <option value="{{ indicacion['id'] }}" selected>{{ indicacion['nombre'] }}</option>
-            {% else %}
-            <option value="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</option>
-            {% endif %}
-            {% endfor %}
-            {{ viejo_examen['indicaciones'] }}
-        </select>
+        <div class="separados">
+            <div>
+                <label for="indicacion">Lista de indicaciones: </label>
+            </div><br>
+            <div>
+                {% for indicacion in descripciones %}
+                <input type="checkbox" name="check" value="{{ indicacion['id'] }}" {% if check in checked_items %}checked{% endif %}>
+                <label for="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</label><br>
+                {% endfor %}
+            </div>
+        </div><br>
     </div>
     <div>
         <a href="{{ url_for('listar_examenes') }}">

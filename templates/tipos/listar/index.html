@@ -15,9 +15,15 @@
         <td>{{ tipo['id'] }}</td>
         <td>{{ tipo['nombre'] }}</td>
         <td>
-            <a href="{{ url_for('consultar_tipo', id=tipo['id']) }}">Consultar</a>
-            <a href="{{ url_for('actualizar_tipo', id=tipo['id']) }}">Actualizar</a>
-            <a href="{{ url_for('eliminar_tipo', id=tipo['id']) }}">Eliminar</a>
+            <a href="{{ url_for('consultar_tipo', id=tipo['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='consultar.png') }}" alt="Consultar">
+            </a>
+            <a href="{{ url_for('actualizar_tipo', id=tipo['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='actualizar.png') }}" alt="Actualizar">
+            </a>
+            <a href="{{ url_for('eliminar_tipo', id=tipo['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
+            </a>
         </td>
     </tr>
     {% endfor %}

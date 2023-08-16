@@ -16,7 +16,9 @@
         <td>
             <a href="{{ url_for('consultar_indicacion', id=indicacion['id']) }}">Consultar</a>
             <a href="{{ url_for('actualizar_indicacion', id=indicacion['id']) }}">Actualizar</a>
-            <a href="{{ url_for('eliminar_indicacion', id=indicacion['id']) }}">Eliminar</a>
+            <a href="{{ url_for('eliminar_indicacion', id=indicacion['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
+            </a>
         </td>
     </tr>
     {% endfor %}

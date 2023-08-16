@@ -26,9 +26,9 @@ body {
     justify-content: space-around;
 }
 
-/* table, td, th {
-    border: 1px solid black;
-} */
+.pequeño {
+    width: 20px;
+}
 
 table {
     margin-left: auto;
