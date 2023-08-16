@@ -12,7 +12,12 @@
         <strong>Categoría: </strong> {{ viejo_examen['categoria']['nombre'] }} <br>
         <strong>Tipo: </strong> {{ viejo_examen['tipo']['nombre'] }} <br>
         <strong>Precio: </strong> {{ viejo_examen['precio'] }} bs <br>
-        <strong>Indicaciones: </strong> {{ viejo_examen['indicaciones']['nombre'] }}
+        <strong>Indicaciones: </strong> 
+        <ul>
+            {% for indicacion in viejo_examen['indicaciones'] %}
+            
+            {% endfor %}
+        </ul>
     </p>
 </div>
 <div>

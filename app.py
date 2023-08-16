@@ -15,8 +15,6 @@ def listar_examenes():
         forma = request.form
         tipo = forma['tipo']
         categoria = forma['categoria']
-        print(tipo)
-        print(categoria)
         servicios = filtrar_examenes(categoria, tipo)
         return render_template('/examenes/listar/index.html', 
                                 servicios=servicios, 
