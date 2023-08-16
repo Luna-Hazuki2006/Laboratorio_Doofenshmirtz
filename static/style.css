@@ -31,7 +31,12 @@ body {
 }
 
 #charts {
-    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 table {
