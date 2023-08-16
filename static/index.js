@@ -16,7 +16,7 @@ function precios() {
     data.nombres = listaNombres
     data.cantidades = cantidades
     new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
             data: {
                 labels: data.nombres,
                 datasets: [{
@@ -51,11 +51,46 @@ function categorias() {
     data.nombres = listaNombres
     data.cantidades = cantidades
     new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
             data: {
                 labels: data.nombres,
                 datasets: [{
                     label: 'Categorias',
+                    data: data.cantidades,
+                    borderWidth: 1
+                }]
+            },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }); 
+}
+
+function indicaciones() {
+    charts.innerHTML = ''
+    const ctx = document.createElement('canvas')
+    ctx.id = 'myChart'
+    charts.appendChild(ctx)
+    const nombre = document.getElementById('indicaciones')
+    let data = {}
+    let listaNombres = []
+    let cantidades = []
+    for (const datos of nombre.children) {
+        listaNombres.push(datos.id)
+        cantidades.push(datos.children.length)
+    }
+    data.nombres = listaNombres
+    data.cantidades = cantidades
+    new Chart(ctx, {
+        type: 'pie',
+            data: {
+                labels: data.nombres,
+                datasets: [{
+                    label: 'indicaciones',
                     data: data.cantidades,
                     borderWidth: 1
                 }]

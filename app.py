@@ -371,7 +371,7 @@ def eliminar_tipo(id):
 def reportes():
     servicios = examenes.find({'estatus': 'A'})
     divisiones = categorias.find({'estatus': 'A'})
-    indicaciones = categorias.find({'estatus': 'A'})
+    especificaciones = indicaciones.find({'estatus': 'A'})
     apreciado = {
         '1 - 100': [], 
         '101 - 200': [], 
@@ -401,19 +401,22 @@ def reportes():
         dato['nombre'] = categoria['nombre']
         dato['lista'] = lista
         categorizado.append(dato)
-    # for indicacion in indicaciones:
-    #     lista = []
-    #     dato = {}
-    #     for servicio in examenes.find({'estatus': 'A'}):
-    #         for caso in servicio['indicaciones']:
-    #             if caso['nombre'] == indicacion['nombre']:
-    #                 lista.append(servicio['id'])
-    #     dato['nombre'] = indicacion['nombre']
-    #     dato['lista'] = lista
-    #     indicados.append(dato)
-    # pprint(indicados)
+    for indicacion in especificaciones:
+        lista = []
+        dato = {}
+        for servicio in examenes.find({'estatus': 'A'}):
+            for caso in servicio['indicaciones']:
+                if caso['nombre'] == indicacion['nombre']:
+                    lista.append(servicio['id'])
+        dato['nombre'] = indicacion['nombre']
+        dato['lista'] = lista
+        indicados.append(dato)
+    pprint(indicados)
             
-    return render_template('/reportes/index.html', apreciado=apreciado, categorizado=categorizado)
+    return render_template('/reportes/index.html', 
+                           apreciado=apreciado, 
+                           categorizado=categorizado, 
+                           indicados=indicados)
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
 def registrar_usuario():

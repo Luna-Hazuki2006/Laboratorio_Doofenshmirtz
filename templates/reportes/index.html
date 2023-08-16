@@ -4,7 +4,7 @@
 
 <section class="botones">
     <button class="button button-clear" type="button" onclick="categorias();">Exámenes por categoría</button>
-    <button class="button button-clear" type="button">Indicación más común</button>
+    <button class="button button-clear" type="button" onclick="indicaciones();">Indicación más común</button>
     <button class="button button-clear" type="button" onclick="precios();">Exámenes por precios</button>
 </section>
 <section class="esconder">
@@ -17,9 +17,16 @@
         </ul>
         {% endfor %}
     </div>
-    <ul id="indicaciones">
-    </ul>
-    <ul id="precios">
+    <div id="indicaciones">
+        {% for indicacion in indicados %}
+        <ul id="{{ indicacion['nombre'] }}">
+            {% for examen in indicacion['lista'] %}
+            <li>{{ examen }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+    <div id="precios">
         <ul id="1 - 100">
             {% for servicio in apreciado['1 - 100'] %}
             <li>{{ servicio['id'] }}</li>
@@ -45,7 +52,7 @@
             <li>{{ servicio['id'] }}</li>
             {% endfor %}
         </ul>
-    </ul>
+    </div>
 </section>
 <section id="charts">
     <canvas id="myChart"></canvas>
