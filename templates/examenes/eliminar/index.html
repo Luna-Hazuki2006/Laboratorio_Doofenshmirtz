@@ -15,7 +15,7 @@
         <strong>Indicaciones: </strong> 
         <ul>
             {% for indicacion in viejo_examen['indicaciones'] %}
-            
+            <li>{{ indicacion['nombre'] }}</li>
             {% endfor %}
         </ul>
     </p>
