@@ -7,7 +7,7 @@ def validar_crear_examen(examen):
             examen['nombre'] == esto['nombre']):
             verdad = False
             break
-    if not isinstance(examen['precio'], int, float):
+    if not isinstance(examen['precio'], int):
         verdad = False
     
     return verdad

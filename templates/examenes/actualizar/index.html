@@ -45,8 +45,12 @@
                 <label for="indicacion">Lista de indicaciones: </label>
             </div><br>
             <div>
-                {% for indicacion in descripciones %}
-                <input type="checkbox" name="check" value="{{ indicacion['id'] }}" {% if check in checked_items %}checked{% endif %}>
+                {% for indicacion in listas %}
+                {% if indicacion['verdad'] %}
+                <input type="checkbox" name="indicacion" id="indicacion" value="{{ indicacion['id'] }}" checked>
+                {% else %}
+                <input type="checkbox" name="indicacion" id="indicacion" value="{{ indicacion['id'] }}">
+                {% endif %}
                 <label for="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</label><br>
                 {% endfor %}
             </div>

@@ -39,6 +39,15 @@ body {
     align-items: center;
 }
 
+.sesion {
+    display: flex;
+    flex-direction: column;
+}
+
+.sesion p {
+    padding-top: 10px;
+}
+
 table {
     margin-left: auto;
     margin-right: auto;

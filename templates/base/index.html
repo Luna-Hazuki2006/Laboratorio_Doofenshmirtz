@@ -25,17 +25,12 @@
             <h1>Laboratorios Doofenshmirtz</h1>
         </div>
         <div>
-            {% if AU != None %}
             <a href="{{ url_for('registrar_usuario') }}">
                 <button type="button">Registrar usuario</button>
             </a>
             <a href="{{ url_for('iniciar_sesion') }}">
                 <button class="button button-outline" type="button">Iniciar sesión</button>
             </a>
-            {% else %}
-            <button style="color: black;" class="button button-clear" type="button">Hola {{ UA['nombre'] }}</button>
-            <button type="button">Cerrar sesión</button>
-            {% endif %}
         </div>
     </header>
     <nav>
@@ -57,6 +52,13 @@
             </li>
         </ul>
     </nav>
+    <section class="sesion">
+        <p>Usuario actual: {% if UA != None %}{{ UA['nombre'] }}{% else %}Ninguno (no se ha registrado aún){% endif %}</p>
+        {% if UA != None %}
+        <button >Cerrar sesión</button>
+        {% else %}
+        {% endif %}
+    </section>
     {% for mensaje in get_flashed_messages() %}
     <p style="color: red;">{{ mensaje }}</p>
     {% endfor %}

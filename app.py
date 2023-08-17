@@ -96,10 +96,26 @@ def actualizar_examen(id):
     divisiones = categorias.find({'estatus': 'A'})
     caracteristicas = tipos.find({'estatus': 'A'})
     descripciones = indicaciones.find({'estatus': 'A'})
+    listas = []
 
     if not viejo_examen:
         flash('Examen no encontrado')
         return redirect(url_for('listar_examenes'))
+    for datos in indicaciones.find({'estatus': 'A'}):
+            realidad = {
+                'id': '', 
+                'nombre': '', 
+                'verdad': True
+            }
+            verdad = False
+            for estos in viejo_examen['indicaciones']:
+                if estos['id'] == datos['id']:
+                    verdad = True
+            realidad['id'] = datos['id']
+            realidad['nombre'] = datos['nombre']
+            realidad['verdad'] = verdad
+            listas.append(realidad)
+    pprint(listas)
     
     if request.method == 'POST':
         forma = request.form
@@ -109,9 +125,9 @@ def actualizar_examen(id):
         lista = []
         for indica in descripciones:
             pprint(forma['indicacion'])
-            if indica['id'] == forma[indica['id']]:
-                lista.append(forma[indica['id']])
-                pprint(forma[indica['id']])
+            if indica['id'] == forma['indicacion']:
+                lista.append(forma['indicacion'])
+                pprint(forma['indicacion'])
         pprint(lista)
         nuevo_examen = {
             'id': viejo_examen['id'], 
@@ -130,7 +146,7 @@ def actualizar_examen(id):
                            viejo_examen=viejo_examen, 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
-                           descripciones=descripciones, 
+                           listas=listas, 
                            UA=Usuario_actual)
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
