@@ -70,12 +70,14 @@ def crear_examen():
             'estatus': 'A'
         }
         if validar_crear_examen(nuevo_examen):
+            nuevo_examen['precio'] = int(forma['precio'])
             id = examenes.insert_one(nuevo_examen).inserted_id
             if id:
                 flash('Examen creado con éxito')
                 return redirect(url_for('listar_examenes'))
             else: 
                 flash('Ocurrió un error guardando')
+        else: flash('El examen no pasó las validaciones')
     return render_template('/examenes/agregar/index.html', 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
@@ -140,8 +142,10 @@ def actualizar_examen(id):
         }
         pprint(nuevo_examen)
         if validar_crear_examen(nuevo_examen):
+            nuevo_examen['precio'] = int(forma['precio'])
             examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
+        else: flash('No pasó las validaciones')
     return render_template('/examenes/actualizar/index.html', 
                            viejo_examen=viejo_examen, 
                            divisiones=divisiones, 
