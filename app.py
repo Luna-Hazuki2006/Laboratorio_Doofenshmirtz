@@ -218,9 +218,11 @@ def eliminar_indicacion(id):
     }
     
     if request.method == 'POST':
-        indicaciones.replace_one({'id': id, 'estatus': 'A'}, indicacion_eliminada)
-        flash('Indicación eliminada con éxito')
-        return redirect(url_for('listar_indicaciones'))
+        if validar_eliminar_indicacion(indicacion_eliminada):
+            indicaciones.replace_one({'id': id, 'estatus': 'A'}, indicacion_eliminada)
+            flash('Indicación eliminada con éxito')
+            return redirect(url_for('listar_indicaciones'))
+        else: flash('No se puede eliminar indicaciones que están en uso')
     return render_template('/indicaciones/eliminar/index.html', vieja_indicacion=vieja_indicacion)
 
 @app.route('/listar_categorias', methods=['GET'])
@@ -291,9 +293,11 @@ def eliminar_categoria(id):
     }
     
     if request.method == 'POST':
-        categorias.replace_one({'id': id, 'estatus': 'A'}, categoria_eliminada)
-        flash('Categoría eliminada con éxito')
-        return redirect(url_for('listar_categorias'))
+        if validar_eliminar_categoria(categoria_eliminada):
+            categorias.replace_one({'id': id, 'estatus': 'A'}, categoria_eliminada)
+            flash('Categoría eliminada con éxito')
+            return redirect(url_for('listar_categorias'))
+        else: flash('No se puede eliminar categorías que están en uso')
     return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)
 
 @app.route('/listar_tipos', methods=['GET'])
@@ -364,9 +368,11 @@ def eliminar_tipo(id):
     }
     
     if request.method == 'POST':
-        tipos.replace_one({'id': id, 'estatus': 'A'}, tipo_eliminado)
-        flash('Tipo eliminado con éxito')
-        return redirect(url_for('listar_tipos'))
+        if validar_eliminar_tipos(tipo_eliminado):
+            tipos.replace_one({'id': id, 'estatus': 'A'}, tipo_eliminado)
+            flash('Tipo eliminado con éxito')
+            return redirect(url_for('listar_tipos'))
+        else: flash('No se pueden eliminar tipos que están en uso')
     return render_template('/tipos/eliminar/index.html', viejo_tipo=viejo_tipo)
 
 @app.route('/reportes', methods=['GET'])
@@ -427,7 +433,22 @@ def registrar_usuario():
         nombre = forma['usuario']
         clave = forma['contraseña']
         repetida = forma['repetida']
-
+        if clave == repetida:
+            numero = usuarios.count_documents({}) + 1
+            usuario = {
+                'id': 'U' + str(numero), 
+                'nombre': nombre, 
+                'clave': clave, 
+                'estatus': 'A'
+            }
+            if validar_registrar(usuario):
+                id = usuarios.insert_one(usuario).inserted_id
+                if id:
+                    flash('Usuario registrado con éxito')
+                else: 
+                    flash('Ocurrió un error guardando')
+            else: flash('Se ingresó un nombre de usuario repetido')
+        else: flash('La contraseña no es igual')
 
     return render_template('/usuarios/registrar_usuario/index.html')
 
