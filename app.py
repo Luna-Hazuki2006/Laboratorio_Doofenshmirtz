@@ -5,6 +5,7 @@ from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
+Usuario_actual = None
 
 @app.route('/', methods=['GET', 'POST'])
 def listar_examenes():
@@ -19,11 +20,13 @@ def listar_examenes():
         return render_template('/examenes/listar/index.html', 
                                 servicios=servicios, 
                                 divisiones=divisiones, 
-                                caracteristicas=caracteristicas)
+                                caracteristicas=caracteristicas, 
+                                UA=Usuario_actual)
     return render_template('/examenes/listar/index.html', 
                            servicios=servicios, 
                            divisiones=divisiones, 
-                           caracteristicas=caracteristicas)
+                           caracteristicas=caracteristicas, 
+                           UA=Usuario_actual)
 
 def filtrar_examenes(categoria, tipo):
     servicios = []
@@ -76,13 +79,16 @@ def crear_examen():
     return render_template('/examenes/agregar/index.html', 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
-                           descripciones=descripciones)
+                           descripciones=descripciones, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/consultar_examen', methods=['GET'])
 def consultar_examen(id):
     examen = examenes.find_one({'id': id, 'estatus': 'A'})
     print(examen)
-    return render_template('/examenes/consultar/index.html', examen=examen)
+    return render_template('/examenes/consultar/index.html', 
+                           examen=examen, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
 def actualizar_examen(id):
@@ -124,7 +130,8 @@ def actualizar_examen(id):
                            viejo_examen=viejo_examen, 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
-                           descripciones=descripciones)
+                           descripciones=descripciones, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
 def eliminar_examen(id):
@@ -148,12 +155,16 @@ def eliminar_examen(id):
         examenes.replace_one({'id': id, 'estatus': 'A'}, examen_eliminado)
         flash('Examen eliminado con éxito')
         return redirect(url_for('listar_examenes'))
-    return render_template('/examenes/eliminar/index.html', viejo_examen=viejo_examen)
+    return render_template('/examenes/eliminar/index.html', 
+                           viejo_examen=viejo_examen, 
+                           UA=Usuario_actual)
 
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
     indicados = indicaciones.find({'estatus': 'A'})
-    return render_template('/indicaciones/listar/index.html', indicados=indicados)
+    return render_template('/indicaciones/listar/index.html', 
+                           indicados=indicados, 
+                           UA=Usuario_actual)
 
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
@@ -174,12 +185,15 @@ def crear_indicacion():
             else: 
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
-    return render_template('/indicaciones/agregar/index.html')
+    return render_template('/indicaciones/agregar/index.html', 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/consultar_indicacion', methods=['GET'])
 def consultar_indicacion(id):
     indicacion = indicaciones.find_one({'id': id, 'estatus': 'A'})
-    return render_template('/indicaciones/consultar/index.html', indicacion=indicacion)
+    return render_template('/indicaciones/consultar/index.html', 
+                           indicacion=indicacion, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/actualizar_indicacion', methods=['GET', 'POST'])
 def actualizar_indicacion(id):
@@ -200,7 +214,9 @@ def actualizar_indicacion(id):
         if validar_editar_indicacion(nueva_indicacion):
             indicaciones.replace_one({'id': id}, nueva_indicacion)
             return redirect(url_for('listar_indicaciones'))
-    return render_template('/indicaciones/actualizar/index.html', vieja_indicacion=vieja_indicacion)
+    return render_template('/indicaciones/actualizar/index.html', 
+                           vieja_indicacion=vieja_indicacion, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/eliminar_indicacion', methods=['GET', 'POST'])
 def eliminar_indicacion(id):
@@ -223,12 +239,16 @@ def eliminar_indicacion(id):
             flash('Indicación eliminada con éxito')
             return redirect(url_for('listar_indicaciones'))
         else: flash('No se puede eliminar indicaciones que están en uso')
-    return render_template('/indicaciones/eliminar/index.html', vieja_indicacion=vieja_indicacion)
+    return render_template('/indicaciones/eliminar/index.html', 
+                           vieja_indicacion=vieja_indicacion, 
+                           UA=Usuario_actual)
 
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
     divisiones = categorias.find({'estatus': 'A'})
-    return render_template('/categorias/listar/index.html', divisiones=divisiones)
+    return render_template('/categorias/listar/index.html', 
+                           divisiones=divisiones, 
+                           UA=Usuario_actual)
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categoria():
@@ -249,12 +269,15 @@ def crear_categoria():
             else: 
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
-    return render_template('/categorias/agregar/index.html')
+    return render_template('/categorias/agregar/index.html', 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
 def consultar_categoria(id):
     categoria = categorias.find_one({'id': id, 'estatus': 'A'})
-    return render_template('/categorias/consultar/index.html', categoria=categoria)
+    return render_template('/categorias/consultar/index.html', 
+                           categoria=categoria, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/actualizar_categoria', methods=['GET', 'POST'])
 def actualizar_categoria(id):
@@ -275,7 +298,9 @@ def actualizar_categoria(id):
         if validar_editar_categoria(nueva_categoria):
             categorias.replace_one({'id': id, 'estatus': 'A'}, nueva_categoria)
             return redirect(url_for('listar_categorias'))
-    return render_template('/categorias/actualizar/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/categorias/actualizar/index.html', 
+                           vieja_categoria=vieja_categoria, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/eliminar_categoria', methods=['GET', 'POST'])
 def eliminar_categoria(id):
@@ -298,12 +323,16 @@ def eliminar_categoria(id):
             flash('Categoría eliminada con éxito')
             return redirect(url_for('listar_categorias'))
         else: flash('No se puede eliminar categorías que están en uso')
-    return render_template('/categorias/eliminar/index.html', vieja_categoria=vieja_categoria)
+    return render_template('/categorias/eliminar/index.html', 
+                           vieja_categoria=vieja_categoria, 
+                           UA=Usuario_actual)
 
 @app.route('/listar_tipos', methods=['GET'])
 def listar_tipos():
     diferencias = tipos.find({'estatus': 'A'})
-    return render_template('/tipos/listar/index.html', diferencias=diferencias)
+    return render_template('/tipos/listar/index.html', 
+                           diferencias=diferencias, 
+                           UA=Usuario_actual)
 
 @app.route('/crear_tipos', methods=['GET', 'POST'])
 def crear_tipo():
@@ -324,12 +353,15 @@ def crear_tipo():
             else: 
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
-    return render_template('/tipos/agregar/index.html')
+    return render_template('/tipos/agregar/index.html', 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/consultar_tipos', methods=['GET'])
 def consultar_tipo(id):
     tipo = tipos.find_one({'id': id, 'estatus': 'A'})
-    return render_template('/tipos/consultar/index.html', tipo=tipo)
+    return render_template('/tipos/consultar/index.html', 
+                           tipo=tipo, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/actualizar_tipo', methods=['GET', 'POST'])
 def actualizar_tipo(id):
@@ -350,7 +382,9 @@ def actualizar_tipo(id):
         if validar_editar_tipos(nuevo_tipo):
             tipos.replace_one({'id': id, 'estatus': 'A'}, nuevo_tipo)
             return redirect(url_for('listar_tipos'))
-    return render_template('/tipos/actualizar/index.html', viejo_tipo=viejo_tipo)
+    return render_template('/tipos/actualizar/index.html', 
+                           viejo_tipo=viejo_tipo, 
+                           UA=Usuario_actual)
 
 @app.route('/<id>/eliminar_tipo', methods=['GET', 'POST'])
 def eliminar_tipo(id):
@@ -373,7 +407,9 @@ def eliminar_tipo(id):
             flash('Tipo eliminado con éxito')
             return redirect(url_for('listar_tipos'))
         else: flash('No se pueden eliminar tipos que están en uso')
-    return render_template('/tipos/eliminar/index.html', viejo_tipo=viejo_tipo)
+    return render_template('/tipos/eliminar/index.html', 
+                           viejo_tipo=viejo_tipo, 
+                           UA=Usuario_actual)
 
 @app.route('/reportes', methods=['GET'])
 def reportes():
@@ -424,7 +460,8 @@ def reportes():
     return render_template('/reportes/index.html', 
                            apreciado=apreciado, 
                            categorizado=categorizado, 
-                           indicados=indicados)
+                           indicados=indicados, 
+                           UA=Usuario_actual)
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
 def registrar_usuario():
@@ -450,7 +487,8 @@ def registrar_usuario():
             else: flash('Se ingresó un nombre de usuario repetido')
         else: flash('La contraseña no es igual')
 
-    return render_template('/usuarios/registrar_usuario/index.html')
+    return render_template('/usuarios/registrar_usuario/index.html', 
+                           UA=Usuario_actual)
 
 @app.route('/inciar_sesion', methods=['GET', 'POST'])
 def iniciar_sesion():
@@ -458,6 +496,14 @@ def iniciar_sesion():
         forma = request.form
         nombre = forma['usuario']
         clave = forma['contraseña']
+        usuario = {
+            'nombre': nombre, 
+            'clave': clave
+        }
+        if validar_iniciar(usuario):
+            Usuario_actual = usuarios.find_one({'nombre': usuario['nombre'], 'estatus': 'A'})
+            return render_template('/base/index.html', UA=Usuario_actual)
+        else: flash('Se ha equivocado en uno de los campos')
 
     return render_template('/usuarios/iniciar_sesion/index.html')
 

@@ -113,9 +113,8 @@ def validar_registrar(usuario):
 def validar_iniciar(usuario): 
     verdad = False
     for esto in usuarios.find({'estatus': 'A'}): 
-        if (usuario['id'] == esto['id'] and
-            usuario['nombre'] == esto['nombre'] and 
-            usuario['contraseña'] == esto['contraseña']):
+        if (usuario['nombre'] == esto['nombre'] and 
+            usuario['clave'] == esto['clave']):
             verdad = True
             break
     return verdad
