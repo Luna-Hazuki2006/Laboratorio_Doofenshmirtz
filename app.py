@@ -125,12 +125,6 @@ def actualizar_examen(id):
     if request.method == 'POST':
         forma = request.form
         lista = []
-        # for indica in descripciones:
-        #     pprint(forma['indicacion'])
-        #     if indica['id'] == forma['indicacion']:
-        #         lista.append(forma['indicacion'])
-        #         pprint(forma['indicacion'])
-        # pprint(lista)
         for item in request.form.getlist('indicacion'):
             lista.append(indicaciones.find_one({'id': item, 'estatus': 'A'}))
         nuevo_examen = {
