@@ -109,39 +109,41 @@ def actualizar_examen(id):
                 'nombre': '', 
                 'verdad': True
             }
+            print('datos')
+            pprint(datos)
             verdad = False
             for estos in viejo_examen['indicaciones']:
+                print()
+                pprint(estos)
                 if estos['id'] == datos['id']:
                     verdad = True
             realidad['id'] = datos['id']
             realidad['nombre'] = datos['nombre']
             realidad['verdad'] = verdad
             listas.append(realidad)
-    pprint(listas)
     
     if request.method == 'POST':
         forma = request.form
-        pprint(forma['tipo'])
-        pprint(forma['categoria'])
-        pprint(forma['indicacion'])
         lista = []
-        for indica in descripciones:
-            pprint(forma['indicacion'])
-            if indica['id'] == forma['indicacion']:
-                lista.append(forma['indicacion'])
-                pprint(forma['indicacion'])
-        pprint(lista)
+        # for indica in descripciones:
+        #     pprint(forma['indicacion'])
+        #     if indica['id'] == forma['indicacion']:
+        #         lista.append(forma['indicacion'])
+        #         pprint(forma['indicacion'])
+        # pprint(lista)
+        for item in request.form.getlist('indicacion'):
+            lista.append(indicaciones.find_one({'id': item, 'estatus': 'A'}))
         nuevo_examen = {
             'id': viejo_examen['id'], 
             'nombre': forma['nombre'], 
             'categoria': categorias.find_one({'id': forma['categoria'], 'estatus': 'A'}), 
             'tipo': tipos.find_one({'id': forma['tipo'], 'estatus': 'A'}), 
             'precio': forma['precio'], 
-            'indicaciones': indicaciones.find_one({'id': forma['indicacion'], 'estatus': 'A'}) , 
+            'indicaciones': lista , 
             'estatus': 'A'
         }
         pprint(nuevo_examen)
-        if validar_crear_examen(nuevo_examen):
+        if validar_editar_examen(nuevo_examen):
             nuevo_examen['precio'] = int(forma['precio'])
             examenes.replace_one({'id': id}, nuevo_examen)
             return redirect(url_for('listar_examenes'))
@@ -512,6 +514,7 @@ def registrar_usuario():
 
 @app.route('/inciar_sesion', methods=['GET', 'POST'])
 def iniciar_sesion():
+    Usuario_actual = None
     if request.method == 'POST':
         forma = request.form
         nombre = forma['usuario']
@@ -525,7 +528,8 @@ def iniciar_sesion():
             return render_template('/base/index.html', UA=Usuario_actual)
         else: flash('Se ha equivocado en uno de los campos')
 
-    return render_template('/usuarios/iniciar_sesion/index.html')
+    return render_template('/usuarios/iniciar_sesion/index.html', 
+                           UA=Usuario_actual)
 
 if __name__ == '__main__':
     app.run(debug=True)
