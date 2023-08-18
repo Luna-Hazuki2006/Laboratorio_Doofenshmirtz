@@ -6,12 +6,24 @@ from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
-Usuario_actual = None
+# Usuario_actual = None
 
-def cambiar(): 
-    data = [Usuario_actual]
+def cambiar(usuario): 
+    data = [
+        {
+            'nombre': usuario
+        }
+    ]
+    pprint(data)
     with open('data.json', 'w', encoding='utf-8') as cosa: 
         json.dump(data, cosa, ensure_ascii=False, indent=4)
+
+def recibir(): 
+    with open('data.json', 'r') as info: 
+        data = json.load(info)
+        print('*****************************')
+        pprint(data)
+        return data[0]
 
 @app.route('/', methods=['GET', 'POST'])
 def listar_examenes():
@@ -27,12 +39,12 @@ def listar_examenes():
                                 servicios=servicios, 
                                 divisiones=divisiones, 
                                 caracteristicas=caracteristicas, 
-                                UA=Usuario_actual)
+                                UA=recibir())
     return render_template('/examenes/listar/index.html', 
                            servicios=servicios, 
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 def filtrar_examenes(categoria, tipo):
     servicios = []
@@ -88,7 +100,7 @@ def crear_examen():
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
                            descripciones=descripciones, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/consultar_examen', methods=['GET'])
 def consultar_examen(id):
@@ -96,7 +108,7 @@ def consultar_examen(id):
     print(examen)
     return render_template('/examenes/consultar/index.html', 
                            examen=examen, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/actualizar_examen', methods=['GET', 'POST'])
 def actualizar_examen(id):
@@ -153,7 +165,7 @@ def actualizar_examen(id):
                            divisiones=divisiones, 
                            caracteristicas=caracteristicas, 
                            listas=listas, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/eliminar_examen', methods=['GET', 'POST'])
 def eliminar_examen(id):
@@ -179,14 +191,14 @@ def eliminar_examen(id):
         return redirect(url_for('listar_examenes'))
     return render_template('/examenes/eliminar/index.html', 
                            viejo_examen=viejo_examen, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/listar_indicaciones', methods=['GET'])
 def listar_indicaciones():
     indicados = indicaciones.find({'estatus': 'A'})
     return render_template('/indicaciones/listar/index.html', 
                            indicados=indicados, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/crear_indicacion', methods=['GET', 'POST'])
 def crear_indicacion():
@@ -208,14 +220,14 @@ def crear_indicacion():
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
     return render_template('/indicaciones/agregar/index.html', 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/consultar_indicacion', methods=['GET'])
 def consultar_indicacion(id):
     indicacion = indicaciones.find_one({'id': id, 'estatus': 'A'})
     return render_template('/indicaciones/consultar/index.html', 
                            indicacion=indicacion, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/actualizar_indicacion', methods=['GET', 'POST'])
 def actualizar_indicacion(id):
@@ -238,7 +250,7 @@ def actualizar_indicacion(id):
             return redirect(url_for('listar_indicaciones'))
     return render_template('/indicaciones/actualizar/index.html', 
                            vieja_indicacion=vieja_indicacion, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/eliminar_indicacion', methods=['GET', 'POST'])
 def eliminar_indicacion(id):
@@ -263,14 +275,14 @@ def eliminar_indicacion(id):
         else: flash('No se puede eliminar indicaciones que están en uso')
     return render_template('/indicaciones/eliminar/index.html', 
                            vieja_indicacion=vieja_indicacion, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/listar_categorias', methods=['GET'])
 def listar_categorias():
     divisiones = categorias.find({'estatus': 'A'})
     return render_template('/categorias/listar/index.html', 
                            divisiones=divisiones, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/crear_categorias', methods=['GET', 'POST'])
 def crear_categoria():
@@ -292,14 +304,14 @@ def crear_categoria():
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
     return render_template('/categorias/agregar/index.html', 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/consultar_categoria', methods=['GET'])
 def consultar_categoria(id):
     categoria = categorias.find_one({'id': id, 'estatus': 'A'})
     return render_template('/categorias/consultar/index.html', 
                            categoria=categoria, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/actualizar_categoria', methods=['GET', 'POST'])
 def actualizar_categoria(id):
@@ -322,7 +334,7 @@ def actualizar_categoria(id):
             return redirect(url_for('listar_categorias'))
     return render_template('/categorias/actualizar/index.html', 
                            vieja_categoria=vieja_categoria, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/eliminar_categoria', methods=['GET', 'POST'])
 def eliminar_categoria(id):
@@ -347,14 +359,14 @@ def eliminar_categoria(id):
         else: flash('No se puede eliminar categorías que están en uso')
     return render_template('/categorias/eliminar/index.html', 
                            vieja_categoria=vieja_categoria, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/listar_tipos', methods=['GET'])
 def listar_tipos():
     diferencias = tipos.find({'estatus': 'A'})
     return render_template('/tipos/listar/index.html', 
                            diferencias=diferencias, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/crear_tipos', methods=['GET', 'POST'])
 def crear_tipo():
@@ -376,14 +388,14 @@ def crear_tipo():
                 flash('Ocurrió un error guardando')
         else: flash('Se ingresó un nombre repetido')
     return render_template('/tipos/agregar/index.html', 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/consultar_tipos', methods=['GET'])
 def consultar_tipo(id):
     tipo = tipos.find_one({'id': id, 'estatus': 'A'})
     return render_template('/tipos/consultar/index.html', 
                            tipo=tipo, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/actualizar_tipo', methods=['GET', 'POST'])
 def actualizar_tipo(id):
@@ -406,7 +418,7 @@ def actualizar_tipo(id):
             return redirect(url_for('listar_tipos'))
     return render_template('/tipos/actualizar/index.html', 
                            viejo_tipo=viejo_tipo, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/<id>/eliminar_tipo', methods=['GET', 'POST'])
 def eliminar_tipo(id):
@@ -431,7 +443,7 @@ def eliminar_tipo(id):
         else: flash('No se pueden eliminar tipos que están en uso')
     return render_template('/tipos/eliminar/index.html', 
                            viejo_tipo=viejo_tipo, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/reportes', methods=['GET'])
 def reportes():
@@ -483,7 +495,7 @@ def reportes():
                            apreciado=apreciado, 
                            categorizado=categorizado, 
                            indicados=indicados, 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/registrar_usuario', methods=['GET', 'POST'])
 def registrar_usuario():
@@ -510,7 +522,7 @@ def registrar_usuario():
         else: flash('La contraseña no es igual')
 
     return render_template('/usuarios/registrar_usuario/index.html', 
-                           UA=Usuario_actual)
+                           UA=recibir())
 
 @app.route('/inciar_sesion', methods=['GET', 'POST'])
 def iniciar_sesion():
@@ -525,11 +537,27 @@ def iniciar_sesion():
         }
         if validar_iniciar(usuario):
             Usuario_actual = usuarios.find_one({'nombre': usuario['nombre'], 'estatus': 'A'})
-            return render_template('/base/index.html', UA=Usuario_actual)
+            print('************************************************')
+            print(Usuario_actual['nombre'])
+            cambiar(Usuario_actual['nombre'])
+            return render_template('/base/index.html', UA=recibir())
         else: flash('Se ha equivocado en uno de los campos')
 
     return render_template('/usuarios/iniciar_sesion/index.html', 
-                           UA=Usuario_actual)
+                           UA=recibir())
+
+@app.route('/cerrar_sesion', methods=['GET'])
+def cerrar_sesion(): 
+    data = [
+        {
+            'nombre': None
+        }
+    ]
+    pprint(data)
+    with open('data.json', 'w', encoding='utf-8') as cosa: 
+        json.dump(data, cosa, ensure_ascii=False, indent=4)
+    return render_template('/base/index.html', 
+                           UA=recibir())
 
 if __name__ == '__main__':
     app.run(debug=True)

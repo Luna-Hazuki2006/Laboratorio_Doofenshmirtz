@@ -41,11 +41,17 @@ body {
 
 .sesion {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .sesion p {
     padding-top: 10px;
+    padding-left: 10px;
+    text-align: left;
+}
+
+.sesion button {
+    width: 300px;
 }
 
 table {
