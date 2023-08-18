@@ -1,11 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from pprint import pprint
 from validaciones import *
+import json
 from db import examenes, categorias, indicaciones, tipos, usuarios
 # ) xbox fruit 2 PARK LAPTOP walmart 8 . _ golf USA korean JACK ? ~ 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = ')xf2PLw8._gUkJ?~'
 Usuario_actual = None
+
+def cambiar(): 
+    data = [Usuario_actual]
+    with open('data.json', 'w', encoding='utf-8') as cosa: 
+        json.dump(data, cosa, ensure_ascii=False, indent=4)
 
 @app.route('/', methods=['GET', 'POST'])
 def listar_examenes():
