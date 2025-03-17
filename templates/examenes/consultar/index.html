@@ -1,0 +1,29 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+
+<h2>{% block title %}Consulta de examen{% endblock %}</h2>
+
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ examen['id'] }} <br>
+        <strong>Nombre: </strong> {{ examen['nombre'] }} <br>
+        <strong>Categoría: </strong> {{ examen['categoria']['nombre'] }} <br>
+        <strong>Tipo: </strong> {{ examen['tipo']['nombre'] }} <br>
+        <strong>Precio: </strong> {{ examen['precio'] }} bs <br>
+        <strong>Indicaciones: </strong>
+        <ul>
+            {% for indicacion in examen['indicaciones'] %}
+            <li>{{ indicacion['nombre'] }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+</div>
+<div>
+    <a href="{{ url_for('listar_examenes') }}">
+        <button type="button">Volver a la lista</button>
+    </a>
+</div>
+
+{% endblock %}

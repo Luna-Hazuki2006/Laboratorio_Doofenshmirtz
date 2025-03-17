@@ -1,0 +1,22 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+<h2>{% block title %}Eliminar indicación{% endblock %}</h2>
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ vieja_indicacion['id'] }} <br>
+        <strong>Nombre: </strong> {{ vieja_indicacion['nombre'] }} <br>
+        <strong>Explicación: </strong> {{ vieja_indicacion['explicacion'] }} 
+    </p>
+</div>
+<div>
+    <form method="post">
+        <a href="{{ url_for('listar_indicaciones') }}">
+            <button type="button">Volver a la lista</button>
+        </a>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+{% endblock %}

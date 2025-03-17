@@ -1,0 +1,53 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+<h1>{% block title %}Añadir Examen{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <label for="nombre">Nombre: </label>
+    <input 
+        type="text" 
+        name="nombre" 
+        id="nombre" 
+        value="{{ request.form['nombre'] }}"
+    ><br><br>
+    <label for="categoria">Categoría: </label>
+    <select name="categoria" id="categoria">
+        {% for categoria in divisiones %}
+        <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label for="tipo">Tipo: </label>
+    <select name="tipo" id="tipo">
+        {% for tipo in caracteristicas %}
+        <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label for="precio">Precio (en bolívares): </label>
+    <input 
+        type="number" 
+        min="1"
+        name="precio" 
+        id="precio" 
+        value="1"
+        value="{{ request.form['precio'] }}"
+    ><br><br>
+    <div class="separados">
+        <div>
+            <label for="indicacion">Lista de indicaciones: </label>
+        </div><br>
+        <div>
+            {% for indicacion in descripciones %}
+            <input type="checkbox" name="check" value="{{ indicacion['id'] }}" {% if check in checked_items %}checked{% endif %}>
+            <label for="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</label><br>
+            {% endfor %}
+        </div>
+    </div><br>
+    <div>
+        <a href="{{ url_for('listar_examenes') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Crear</button>
+    </div>
+</form>
+{% endblock %}

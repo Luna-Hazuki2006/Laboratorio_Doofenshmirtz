@@ -1,0 +1,62 @@
+{% extends './base/index.html' %}
+
+{% block content %}
+
+<h2 class="centro">{% block title %}Lista de exámenes{% endblock %}</h2>
+<a href="{{ url_for('crear_examen') }}">¿No encuentras un examen? ¡Créalo!</a> 
+<section class="redondeado">
+    <form method="post">
+        <h3>Filtrar exámenes</h3>
+        <div>
+            <label for="categoria">Categorías: </label>
+            <select name="categoria" id="categoria">
+                <option value="{{ categoria }}">Todas las categorías</option>
+                {% for categoria in divisiones %}
+                <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="tipo">Tipos: </label>
+            <select name="tipo" id="tipo">
+                <option value="{{ tipo }}">Todos los tipos</option>
+                {% for tipo in caracteristicas %}
+                <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button type="submit">Filtrar</button>
+        </div>
+    </form>
+</section>
+<section class="contenido">
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Opciones</th>
+        </tr>
+        {% for servicio in servicios %}
+        <tr>
+            <td>{{ servicio['id'] }}</td>
+            <td>{{ servicio['nombre'] }}</td>
+            <td>{{ servicio['precio'] }}</td>
+            <td>
+                <a href="{{ url_for('consultar_examen', id=servicio['id']) }}">
+                    <img class="pequeño" src="{{ url_for('static', filename='consultar.png') }}" alt="Consultar">
+                </a>
+                <a href="{{ url_for('actualizar_examen', id=servicio['id']) }}">
+                    <img class="pequeño" src="{{ url_for('static', filename='actualizar.png') }}" alt="Actualizar">
+                </a>
+                <a href="{{ url_for('eliminar_examen', id=servicio['id']) }}">
+                    <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+{% endblock %}

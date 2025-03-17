@@ -1,0 +1,67 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+
+<h1>{% block title %}Actualizar Examen{% endblock %}</h1>
+<form method="post">
+    <h4>Datos: </h4>
+    <div>
+        <label for="nombre">Nombre: </label>
+        <input 
+            type="text" 
+            name="nombre" 
+            id="nombre"
+            value="{{ viejo_examen['nombre'] }}"
+        ><br><br>
+        <label for="categoria">Categoría: </label>
+        <select name="categoria" id="categoria">
+            {% for categoria in divisiones %}
+            {% if viejo_examen['categoria'] == categoria %}
+            <option value="{{ categoria['id'] }}" selected>{{ categoria['nombre'] }}</option>
+            {% else %}
+            <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
+            {% endif %}
+            {% endfor %}
+        </select><br><br>
+        <label for="tipo">Tipo: </label>
+        <select name="tipo" id="tipo">
+            {% for tipo in caracteristicas %}
+            {% if viejo_examen['tipo'] == tipo %}
+            <option value="{{ tipo['id'] }}" selected>{{ tipo['nombre'] }}</option>
+            {% else %}
+            <option value="{{ tipo['id'] }}">{{ tipo['nombre'] }}</option>
+            {% endif %}
+            {% endfor %}
+        </select><br><br>
+        <label for="precio">Precio (en bolívares): </label>
+        <input 
+            type="number" 
+            name="precio" 
+            id="precio" 
+            value="{{ viejo_examen['precio'] }}"
+        ><br><br>
+        <div class="separados">
+            <div>
+                <label for="indicacion">Lista de indicaciones: </label>
+            </div><br>
+            <div>
+                {% for indicacion in listas %}
+                {% if indicacion['verdad'] %}
+                <input type="checkbox" name="indicacion" id="indicacion" value="{{ indicacion['id'] }}" checked>
+                {% else %}
+                <input type="checkbox" name="indicacion" id="indicacion" value="{{ indicacion['id'] }}">
+                {% endif %}
+                <label for="{{ indicacion['id'] }}">{{ indicacion['nombre'] }}</label><br>
+                {% endfor %}
+            </div>
+        </div><br>
+    </div>
+    <div>
+        <a href="{{ url_for('listar_examenes') }}">
+            <button type="button">Cancelar</button>
+        </a>
+        <button type="submit">Actualizar</button>
+    </div>
+</form>
+
+{% endblock %}

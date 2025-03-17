@@ -1,0 +1,31 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+<h2 class="centro">{% block title %}Categorías{% endblock %}</h2>
+<a href="{{ url_for('crear_categoria') }}">¿No encuentras una categoría? ¡Créala!</a>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Opciones</th>
+    </tr>
+    {% for categoria in divisiones %}
+    <tr>
+        <td>{{ categoria['id'] }}</td>
+        <td>{{ categoria['nombre'] }}</td>
+        <td>
+            <a href="{{ url_for('consultar_categoria', id=categoria['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='consultar.png') }}" alt="Consultar">
+            </a>
+            <a href="{{ url_for('actualizar_categoria', id=categoria['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='actualizar.png') }}" alt="Actualizar">
+            </a>
+            <a href="{{ url_for('eliminar_categoria', id=categoria['id']) }}">
+                <img class="pequeño" src="{{ url_for('static', filename='eliminar.png') }}" alt="Eliminar">
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

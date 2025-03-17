@@ -1,0 +1,22 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ viejo_tipo['id'] }} <br>
+        <strong>Nombre: </strong> {{ viejo_tipo['nombre'] }} <br>
+        <strong>Descripción: </strong> {{ viejo_tipo['descripcion'] }}
+    </p>
+</div>
+<div>
+    <form method="post">
+        <a href="{{ url_for('listar_tipos') }}">
+            <button type="button">Volver a la lista</button>
+        </a>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <!-- You should properly set the path from the main file. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
+    <script src="sweetalert2.min.js" defer></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='him.ico') }}" type="image/x-icon">
+    <script src="{{ url_for('static', filename='index.js') }}" defer></script>
+    <title>{% block title %}Laboratorios Doofenshmirtz{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Laboratorios Doofenshmirtz</h1>
+        </div>
+        <div>
+            <a href="{{ url_for('registrar_usuario') }}">
+                <button type="button">Registrar usuario</button>
+            </a>
+            {% if UA['nombre'] != None %}
+            <a href="{{ url_for('cerrar_sesion') }}">
+                <button class="button button-outline" type="button">Cerrar sesión</button>
+            </a>
+            {% else %}
+            <a href="{{ url_for('iniciar_sesion') }}">
+                <button class="button button-outline" type="button">Iniciar sesión</button>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+    <section class="sesion">
+        <p>Usuario actual: {% if UA['nombre'] != None %}{{ UA['nombre'] }}{% else %}Ninguno (no se ha registrado aún){% endif %}</p>
+    </section>
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ url_for('listar_categorias') }}">Sección de categorías</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_examenes') }}">Sección de exámenes</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_indicaciones') }}">Sección de indicaciones</a>
+            </li>
+            <li>
+                <a href="{{ url_for('listar_tipos') }}">Sección de tipos</a>
+            </li>
+            <li>
+                <a href="{{ url_for('reportes') }}">Revisar reportes</a>
+            </li>
+        </ul>
+    </nav>
+    {% for mensaje in get_flashed_messages() %}
+    <p style="color: red;">{{ mensaje }}</p>
+    {% endfor %}
+    <section class="contenido">
+        {% block content %}
+        {% endblock %}
+    </section>
+</body>
+</html>

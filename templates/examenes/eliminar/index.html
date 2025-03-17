@@ -1,0 +1,32 @@
+{% extends '././base/index.html' %}
+
+{% block content %}
+
+<h2>{% block title %}Eliminar examen{% endblock %}</h2>
+
+<div>
+    <h3>Datos:</h3>
+    <p style="text-align: left;">
+        <strong>Id: </strong> {{ viejo_examen['id'] }} <br>
+        <strong>Nombre: </strong> {{ viejo_examen['nombre'] }} <br>
+        <strong>Categoría: </strong> {{ viejo_examen['categoria']['nombre'] }} <br>
+        <strong>Tipo: </strong> {{ viejo_examen['tipo']['nombre'] }} <br>
+        <strong>Precio: </strong> {{ viejo_examen['precio'] }} bs <br>
+        <strong>Indicaciones: </strong> 
+        <ul>
+            {% for indicacion in viejo_examen['indicaciones'] %}
+            <li>{{ indicacion['nombre'] }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+</div>
+<div>
+    <form method="post">
+        <a href="{{ url_for('listar_examenes') }}">
+            <button type="button">Volver a la lista</button>
+        </a>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+{% endblock %}
